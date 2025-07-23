@@ -1,10 +1,10 @@
 
 import Navbar from "../ui/components/Navbar.js";
 import { AuthService } from "../services/authService.js";
-import LoginScreen from "../ui/screens/loginScreen.js";
-import AdminScreen from "../ui/screens/adminScreen.js";
-import BoutiquierScreen from "../ui/screens/boutiquierScreen.js";
-import ClientScreen from "../ui/screens/clientScreen.js";
+import LoginScreen from "../ui/screens/LoginScreen.js";
+import AdminScreen from "../ui/screens/AdminScreen.js";
+import BoutiquierScreen from "../ui/screens/BoutiquierScreen.js";
+import ClientScreen from "../ui/screens/ClientScreen.js";
 import AdminBoutiquierScreen from "../ui/screens/AdminBoutiquierScreen.js";
 
 export default class Router {

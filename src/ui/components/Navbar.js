@@ -20,13 +20,12 @@ export default class Navbar {
     let links = "";
 
     switch (user.id_role) {
+
       case "1": // Admin
         links = `
-        <div class="flex space-x-4 ">
 
           <a href="#admin" class="mr-4 ">Dashboard Admin</a>
           <a href="#admin-boutiquier" class="mr-4 ">Boutiquiers</a>
-        </div>
         `;
         break;
 
@@ -54,7 +53,8 @@ export default class Navbar {
 
   this.root.innerHTML = `
   <nav class="bg-gray-800 text-white w-full shadow p-4 flex justify-between ">
-    <div class="flex space-x-4 justify-center">
+  <img src="./assets/images/logo.png" alt="Logo" class="h-8 w-8 mr-4">
+    <div class="flex space-x-4  text-center">
       ${links}
     </div>
     <button id="logoutBtn" class="bg-red-600 px-3 py-1 rounded">Déconnexion</button>
