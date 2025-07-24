@@ -1,5 +1,5 @@
 import { AuthService } from "../../../services/authService.js";
-
+import { DetteService } from "../../../services/detteService.js";
 export default class ClientScreen {
   constructor(root) {
     this.root = root;
@@ -68,6 +68,7 @@ export default class ClientScreen {
   }
 
   _renderDemandesList() {
+    // console.log("Demandes:", this.state.demandes); // avant le length
     if (this.state.demandes.length === 0) {
       return `<p class="text-slate-400 italic">Aucune demande en cours</p>`;
     }
