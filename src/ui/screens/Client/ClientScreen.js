@@ -2,7 +2,7 @@ import { AuthService } from "../../../services/authService.js";
 import { DetteService } from "../../../services/detteService.js";
 import { Modal } from "../../components/Modal.js";
 import { validate } from "../../../utils/validation.js";
-
+import { Toast } from "../../components/Toast.js";
 export default class ClientScreen {
   constructor(root) {
     this.root = root;
@@ -14,7 +14,7 @@ export default class ClientScreen {
       demandes: []
     };
   }
-
+  
   async render() {
   try {
     this.state.user = await this.authSvc.getCurrentUser();
@@ -234,10 +234,11 @@ export default class ClientScreen {
           raison: data.raison
         });
         
+       Toast.show('Demande créée avec succès!', 'success');
         modal.close();
         await this.render();
       } catch (error) {
-        alert(`Erreur: ${error.message}`);
+        Toast.show(`Erreur: ${error.message}`, 'error');
       }
     });
 
@@ -246,8 +247,11 @@ export default class ClientScreen {
 
   setUpEventListeners() {
     this.root.querySelector('#btn-logout')?.addEventListener('click', async () => {
-      await this.authSvc.logout();
-      window.location.hash = "#auth/login";
+     this.authSvc.logout();
+      Toast.show('Déconnexion réussie', 'success');
+      setTimeout(() => {
+        window.location.hash = "#auth/login";
+      }, 3000);
     });
 
     this.root.querySelector('#btn-request-debt')?.addEventListener('click', () => {
