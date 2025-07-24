@@ -1,5 +1,6 @@
 import { boutiquierService } from "../../../services/boutiquierService";
 import { Modal } from "../../components/Modal.js";
+import { validate } from "../../../utils/validation.js";
 
 export default class AdminBoutiquierScreen {
   constructor(root) {
@@ -116,7 +117,7 @@ export default class AdminBoutiquierScreen {
          <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Telephone</label>
           <input name="telephone" type="text" minlength="6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
-          <p id="tel-error" class="mt-1 text-sm text-red-600 hidden"></p>
+          <p id="telephone-error" class="mt-1 text-sm text-red-600 hidden"></p>
         </div>
         
         
@@ -126,12 +127,12 @@ export default class AdminBoutiquierScreen {
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Latitude</label>
               <input name="latitude" type="number" step="0.000001" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
-              <p id="lat-error" class="mt-1 text-sm text-red-600 hidden"></p>
+              <p id="latitude-error" class="mt-1 text-sm text-red-600 hidden"></p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Longitude</label>
               <input name="longitude" type="number" step="0.000001" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
-              <p id="lng-error" class="mt-1 text-sm text-red-600 hidden"></p>
+              <p id="longitude-error" class="mt-1 text-sm text-red-600 hidden"></p>
             </div>
           </div>
         </div>
@@ -176,42 +177,73 @@ export default class AdminBoutiquierScreen {
 
     // Soumission
     form.onsubmit = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      const formData = new FormData(form);
-      const fileInput = form.querySelector('[name="image"]').files[0];
+    const formData = new FormData(form);
+    const fileInput = form.querySelector('[name="image"]').files[0];
 
-      let imageUrl = null;
-
-      if (fileInput) {
-        imageUrl = await this.boutiquierSvc.uploadImage(fileInput);
-      }
-
-      const boutiquier = {
-        nom: formData.get("nom"),
-        prenom: formData.get("prenom"),
-        email: formData.get("email"),
-        password: formData.get("password"),
-        telephone: formData.get("telephone"),
-        image: imageUrl,
-        localisation: {
-          latitude: parseFloat(formData.get("latitude")),
-          longitude: parseFloat(formData.get("longitude")),
-        },
-      };
-
-      try {
-        await this.boutiquierSvc.create(boutiquier);
-        modal.close();
-        this.state.imagePreview = null;
-        this.render();
-      } catch (error) {
-        const errorEl = form.querySelector("#form-error");
-        errorEl.textContent = error.message || "Erreur lors de la création";
-        errorEl.classList.remove("hidden");
-      }
+    const boutiquier = {
+      nom: formData.get("nom"),
+      prenom: formData.get("prenom"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      telephone: formData.get("telephone"),
+      latitude: formData.get("latitude"),
+      longitude: formData.get("longitude"),
     };
+
+    // ✅ VALIDATION GÉNÉRIQUE
+    const rules = {
+      nom: ["required"],
+      prenom: ["required"],
+      email: ["required", "email"],
+      password: ["required", "min:6"],
+      telephone: ["required", "phone"],
+      latitude: ["required", "number"],
+      longitude: ["required", "number"],
+    };
+
+    const errors = validate(boutiquier, rules);
+
+    // Réinitialise les messages d'erreur
+    form.querySelectorAll("p[id$='-error']").forEach(el => {
+      el.textContent = "";
+      el.classList.add("hidden");
+    });
+
+    if (Object.keys(errors).length > 0) {
+      for (const key in errors) {
+        const errorEl = form.querySelector(`#${key}-error`);
+        if (errorEl) {
+          errorEl.textContent = errors[key];
+          errorEl.classList.remove("hidden");
+        }
+      }
+      return; 
+    }
+
+    //  UPLOAD IMAGE
+    let imageUrl = null;
+    if (fileInput) {
+      imageUrl = await this.boutiquierSvc.uploadImage(fileInput);
+    }
+
+    boutiquier.image = imageUrl;
+
+    try {
+      await this.boutiquierSvc.create(boutiquier);
+      modal.close();
+      this.state.imagePreview = null;
+      this.render();
+    } catch (error) {
+      const errorEl = form.querySelector("#form-error");
+      errorEl.textContent = error.message || "Erreur lors de la création";
+      errorEl.classList.remove("hidden");
+    }
+  };
   }
+
+
 
   setUpEventListeners() {
     // Bouton d'ouverture du modal

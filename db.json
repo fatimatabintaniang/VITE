@@ -41,6 +41,26 @@
       "password": "ina@gmail.com",
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753358370/impjqb0d74s43jqepdnk.jpg"
+    },
+    {
+      "id": "7603",
+      "nom": "diouf",
+      "prenom": "milk",
+      "email": "milk@gmail.com",
+      "telephone": "767890999",
+      "password": "milk123",
+      "id_role": "2",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753360360/oxsggtbtfdri7isipq5k.jpg"
+    },
+    {
+      "id": "7866",
+      "nom": "Ndiaye",
+      "prenom": "Daro",
+      "email": "daro@gmail.com",
+      "telephone": "777777777",
+      "password": "milk123",
+      "id_role": "2",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753364856/ezzgiw6bg8uewcgsaxm3.png"
     }
   ],
   "roles": [
@@ -73,6 +93,18 @@
         "longitude": "80",
         "latitude": "50"
       }
+    },
+    {
+      "id": "5fed",
+      "id_utilisateur": "7603",
+      "localisation": {
+        "latitude": 14.7511,
+        "longitude": 80
+      }
+    },
+    {
+      "id": "fac7",
+      "id_utilisateur": "7866"
     }
   ]
 }
