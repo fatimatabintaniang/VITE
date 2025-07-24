@@ -8,6 +8,38 @@ export class ApiClient {
     return await res.json();
   }
 
+  async post(endpoint, body) {
+  const res = await fetch(`${this.baseUrl}/${endpoint}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Erreur POST ${endpoint}: ${res.status} - ${errorText}`);
+  }
+
+  return await res.json();
+}
+
+async put(endpoint, body) {
+  const res = await fetch(`${this.baseUrl}/${endpoint}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Erreur PUT ${endpoint}: ${res.status} - ${errorText}`);
+  }
+
+  return await res.json();
+}
+
+
+
   async delete(endpoint) {
     const res = await fetch(`${this.baseUrl}/${endpoint}`, {
       method: "DELETE"
