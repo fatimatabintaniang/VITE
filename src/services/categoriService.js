@@ -1,8 +1,8 @@
 import { ApiClient } from '../data/ApiClient.js';
 
 export class CategoryService {
-  constructor(baseUrl = 'http://localhost:3000') {
-    this.api = new ApiClient(baseUrl);
+  constructor() {
+    this.api = new ApiClient("http://localhost:3000/categories");
   }
 
   /**
@@ -12,17 +12,20 @@ export class CategoryService {
    */
   async getAllCategories(includeDeleted = false) {
     try {
-      const response = await this.api.get('categories');
-      let categories = response.data || [];
+      const response = await this.api.get("");
+      let categories = Array.isArray(response) ? response : response?.data || [];
       
       if (!includeDeleted) {
         categories = categories.filter(cat => !cat.deleted);
       }
       
-      return categories.map(cat => new Category(cat));
+     return {
+        data: categories,
+        headers: response.headers || {}
+      };
     } catch (error) {
       console.error('Error fetching categories:', error);
-      throw new Error('Failed to fetch categories');
+      return { data: [], headers: {} };
     }
   }
 

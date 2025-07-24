@@ -1,11 +1,10 @@
 {
-   "categories": [
+  "categories": [
     {
       "id": "1",
       "libelle": "Informatique",
       "deleted": false,
-        "boutiquier_id": 1
-
+      "boutiquier_id": 1
     },
     {
       "id": "2",
@@ -22,7 +21,7 @@
     {
       "id": "d0b2",
       "libelle": "Licence 3 GL",
-       "boutiquier_id": "4de0",
+      "boutiquier_id": "4de0",
       "deleted": false
     },
     {
@@ -113,6 +112,26 @@
       "password": "ina@gmail.com",
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753358370/impjqb0d74s43jqepdnk.jpg"
+    },
+    {
+      "id": "16ff",
+      "nom": "",
+      "prenom": "",
+      "email": "",
+      "telephone": "",
+      "password": "",
+      "id_role": "2",
+      "image": null
+    },
+    {
+      "id": "c651",
+      "nom": "",
+      "prenom": "",
+      "email": "",
+      "telephone": "",
+      "password": "",
+      "id_role": "2",
+      "image": null
     }
   ],
   "roles": [
@@ -145,9 +164,25 @@
         "longitude": "80",
         "latitude": "50"
       }
+    },
+    {
+      "id": "87a0",
+      "id_utilisateur": "16ff",
+      "localisation": {
+        "latitude": null,
+        "longitude": null
+      }
+    },
+    {
+      "id": "9224",
+      "id_utilisateur": "c651",
+      "localisation": {
+        "latitude": null,
+        "longitude": null
+      }
     }
   ],
-    "clients": [
+  "clients": [
     {
       "id": "1",
       "id_utilisateur": "2",
@@ -166,7 +201,7 @@
   "dettes": [
     {
       "id": "1",
-      "clientId": "1", 
+      "clientId": "1",
       "boutiquierId": "1",
       "articleId": "1",
       "montant": 500,
@@ -178,7 +213,7 @@
   "demandeDettes": [
     {
       "id": "1",
-      "clientId": "2", 
+      "clientId": "2",
       "articleId": "2",
       "articleLibelle": "T-shirt",
       "montant": 50,
@@ -188,7 +223,7 @@
     },
     {
       "id": "1005",
-      "clientId": "2", 
+      "clientId": "2",
       "articleId": "2",
       "articleLibelle": "T-shirt",
       "montant": 20,
@@ -198,5 +233,3 @@
     }
   ]
 }
-
-
