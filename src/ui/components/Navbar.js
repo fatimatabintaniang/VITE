@@ -43,7 +43,6 @@ export default class Navbar {
         links = `
           <a href="#client" class="mr-4 ">Dashboard Client</a>
           <a href="#articles" class="mr-4 ">Articles</a>
-          <a href="#panier" class="mr-4 ">Panier</a>
         `;
         break;
 

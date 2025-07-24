@@ -1,10 +1,14 @@
 
 import Navbar from "../ui/components/Navbar.js";
 import { AuthService } from "../services/authService.js";
+import { ArticleService } from "../services/articleService.js";
+import { DetteService } from "../services/detteService.js";
+import { CategoryService } from "../services/categoriService.js";
 import LoginScreen from "../ui/screens/Security/LoginScreen.js";
 import AdminScreen from "../ui/screens/Admin/AdminScreen.js";
 import BoutiquierScreen from "../ui/screens/Boutiquier/BoutiquierScreen.js";
 import ClientScreen from "../ui/screens/Client/ClientScreen.js";
+import ClientArticlesScreen from "../ui/screens/Client/ClientArticlesScreen.js";
 import AdminBoutiquierScreen from "../ui/screens/Admin/AdminBoutiquierScreen.js";
 import AdminBoutiquierDetailScreen from "../ui/screens/Admin/AdminBoutiquierDetailScreen.js";
 import BoutiquierCategorieScreen from "../ui/screens/Boutiquier/BoutiquierCategorieScreen.js";
@@ -16,6 +20,10 @@ export default class Router {
   constructor(appRoot) {
     this.appRoot = appRoot;
     this.authSvc = new AuthService();
+    this.articleSvc = new ArticleService();
+    this.detteSvc = new DetteService();
+    this.categorySvc = new CategoryService();
+
   }
 
   init() {
@@ -87,6 +95,9 @@ route() {
       break;
     case "#client":
       new ClientScreen(content).render();
+      break;
+    case "#articles":
+      new ClientArticlesScreen(content).render();
       break;
     case "#admin-boutiquier":
       new AdminBoutiquierScreen(content).render();
