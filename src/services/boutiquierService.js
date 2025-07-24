@@ -7,16 +7,35 @@ export class boutiquierService {
     this.cloudinary = new CloudinaryClient();
   }
 
-  async getAllBoutiquiers() {
-    const boutiquiers = await this.api.get("boutiquiers");
-    const utilisateurs = await this.api.get("utilisateurs");
 
-    return boutiquiers.map(b => {
-      const user = utilisateurs.find(u => u.id == b.id_utilisateur && u.id_role === "2" && u.deleted !== "true");
-      return user ? { ...b, user } : null;
-    }).filter(b => b !== null);
-  }
 
+async getDeletedBoutiquiers() {
+  const boutiquiers = await this.api.get("boutiquiers");
+  const utilisateurs = await this.api.get("utilisateurs?deleted=true");
+  
+  return boutiquiers.map(b => {
+    const user = utilisateurs.find(u => u.id == b.id_utilisateur && u.id_role === "2");
+    return user ? { ...b, user } : null;
+  }).filter(b => b !== null);
+}
+
+async restore(id) {
+  await this.api.patch(`utilisateurs/${id}`, { deleted: false });
+}
+
+  async getAllBoutiquiers(includeDeleted = false) {
+  const boutiquiers = await this.api.get("boutiquiers");
+  const utilisateurs = await this.api.get("utilisateurs");
+
+  return boutiquiers.map(b => {
+    const user = utilisateurs.find(u => 
+      u.id == b.id_utilisateur && 
+      u.id_role === "2" &&
+      (includeDeleted || u.deleted !== "true")
+    );
+    return user ? { ...b, user } : null;
+  }).filter(b => b !== null);
+}
 
  async create(boutiquier) {
   try {
@@ -54,8 +73,6 @@ export class boutiquierService {
     throw new Error('Échec de la création du boutiquier');
   }
 }
-
-
 
   async uploadImage(file) {
   if (!file) return "";
@@ -98,12 +115,130 @@ export class boutiquierService {
     }
   }
 
-  async updateBoutiquier(id, body) {
-    try {
-      return await this.api.patch(`boutiquiers/${id}`, body);
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour:", error);
-      throw new Error('Échec de la mise à jour du boutiquier');
+async update(id, data) {
+  try {
+    // Validation des données requises
+    if (!data.nom || !data.prenom || !data.email || !data.telephone) {
+      throw new Error("Données utilisateur incomplètes");
     }
+
+    // 1. Mise à jour de l'utilisateur
+    const userUpdate = {
+      nom: data.nom,
+      prenom: data.prenom,
+      email: data.email,
+      telephone: data.telephone
+    };
+
+    // Champs optionnels
+    if (data.password) userUpdate.password = data.password;
+    if (data.image) userUpdate.image = data.image;
+
+    await this.api.patch(`utilisateurs/${id}`, userUpdate);
+
+    // 2. Mise à jour de la localisation
+    if (data.localisation) {
+      const boutiquiers = await this.api.get(`boutiquiers?id_utilisateur=${id}`);
+      
+      const localisationUpdate = {
+        localisation: {
+          latitude: data.localisation.latitude || 0,
+          longitude: data.localisation.longitude || 0
+        }
+      };
+
+      if (boutiquiers.length > 0) {
+        await this.api.patch(`boutiquiers/${boutiquiers[0].id}`, localisationUpdate);
+      } else {
+        await this.api.post('boutiquiers', {
+          id_utilisateur: id,
+          ...localisationUpdate
+        });
+      }
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Erreur update détaillée:", {
+      error: error.message,
+      stack: error.stack,
+      id: id,
+      data: data
+    });
+    throw new Error(`Échec de la mise à jour: ${error.message}`);
   }
+}
+
+async getBoutiquierById(id) {
+  try {
+    const user = await this.api.get(`utilisateurs/${id}`);
+    const boutiquiers = await this.api.get(`boutiquiers?id_utilisateur=${id}`);
+    const boutiquierInfo = boutiquiers[0] || {};
+
+    // Retourne un objet plat avec toutes les propriétés nécessaires
+    return {
+      id: user.id,
+      nom: user.nom || '',
+      prenom: user.prenom || '',
+      email: user.email || '',
+      telephone: user.telephone || '',
+      image: user.image || null,
+      localisation: boutiquierInfo.localisation || {
+        latitude: 0,
+        longitude: 0
+      }
+    };
+  } catch (error) {
+    console.error("Erreur getBoutiquierById:", error);
+    throw new Error("Impossible de charger les données du boutiquier");
+  }
+}
+
+ async softDelete(id) {
+  try {
+    // 1. Mise à jour de l'utilisateur
+    await this.api.patch(`utilisateurs/${id}`, {
+      deleted: "true",
+      deletedAt: new Date().toISOString()
+    });
+
+    // 2. Optionnel : Mettre à jour les produits associés
+    // await this.api.patch(`produits?boutiquier_id=${id}`, {
+    //   deleted: "true"
+    // });
+
+    return { success: true, message: "Boutiquier archivé avec succès" };
+  } catch (error) {
+    console.error("Erreur softDelete:", {
+      id: id,
+      error: error.message,
+      stack: error.stack
+    });
+    throw new Error("Échec de l'archivage du boutiquier");
+  }
+}
+
+//  async restore(id) {
+//   try {
+//     // 1. Restauration de l'utilisateur
+//     await this.api.patch(`utilisateurs/${id}`, {
+//       deleted: "false",
+//       deletedAt: null
+//     });
+
+//     // 2. Optionnel : Restaurer les produits associés
+//     // await this.api.patch(`produits?boutiquier_id=${id}`, {
+//     //   deleted: "false"
+//     // });
+
+//     return { success: true, message: "Boutiquier restauré avec succès" };
+//   } catch (error) {
+//     console.error("Erreur restore:", {
+//       id: id,
+//       error: error.message,
+//       stack: error.stack
+//     });
+//     throw new Error("Échec de la restauration du boutiquier");
+//   }
+// }
 }
