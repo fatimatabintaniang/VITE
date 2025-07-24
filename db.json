@@ -179,7 +179,7 @@
   "clients": [
     {
       "id": "1",
-      "id_utilisateur": "2",
+      "id_utilisateur": "3",
       "solde": 0,
       "creditMax": 500,
       "createdAt": "2025-01-01T00:00:00.000Z"
@@ -195,7 +195,7 @@
   "dettes": [
     {
       "id": "1",
-      "clientId": "1",
+      "clientId": "3",
       "boutiquierId": "1",
       "articleId": "1",
       "montant": 500,
@@ -207,7 +207,7 @@
   "demandeDettes": [
     {
       "id": "1",
-      "clientId": "2",
+      "clientId": "3",
       "articleId": "2",
       "articleLibelle": "T-shirt",
       "montant": 50,
@@ -217,7 +217,7 @@
     },
     {
       "id": "1005",
-      "clientId": "2",
+      "clientId": "3",
       "articleId": "2",
       "articleLibelle": "T-shirt",
       "montant": 20,

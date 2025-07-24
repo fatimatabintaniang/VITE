@@ -7,12 +7,12 @@ export class DetteService {
 
   async getByClientId(clientId) {
     try {
-      if (!clientId) throw new Error("ID client requis");
-      const response = await this.api.get("dettes", { clientId });
- return Array.isArray(response?.data) ? response.data : [];    } catch (error) {
-      console.error("Erreur lors de la récupération des dettes:", error);
-      throw new Error("Impossible de charger les dettes");
-        return [];
+      const dettes = await this.api.get("dettes");
+      // console.log("Toutes les dettes (sans filtrage):", dettes); // Debug
+      return dettes || []; // Retourne tout sans filtrer
+    } catch (error) {
+      console.error("Erreur:", error);
+      return [];
     }
   }
 
@@ -20,6 +20,7 @@ export class DetteService {
     try {
       return await this.api.post("demandeDettes", {
         ...demande,
+        clientId: String(demande.clientId),
         statut: "pending",
         createdAt: new Date().toISOString()
       });
@@ -31,17 +32,24 @@ export class DetteService {
 
   async getDemandesByClient(clientId) {
     try {
-      const response = await this.api.get("demandeDettes", { clientId });
- return Array.isArray(response?.data) ? response.data : [];    } catch (error) {
+      if (!clientId) throw new Error("ID client requis");
+      const demandes = await this.api.get("demandeDettes");
+      if (!Array.isArray(demandes)) return [];
+      
+      // Filtrer côté client
+      const clientIdStr = String(clientId);
+      return demandes.filter(demande => 
+        String(demande.clientId) === clientIdStr
+      );
+    } catch (error) {
       console.error("Erreur lors de la récupération des demandes:", error);
-      throw new Error("Impossible de charger les demandes");
       return [];
     }
   }
 
   async validerDemande(demandeId, data) {
     try {
-      return await this.api.patch(`demandeDettes/${demandeId}`, null, {
+      return await this.api.patch(`demandeDettes/${demandeId}`, {
         ...data,
         statut: "approved",
         updatedAt: new Date().toISOString()
@@ -54,7 +62,7 @@ export class DetteService {
 
   async rembourser(detteId, montant) {
     try {
-      return await this.api.patch(`dettes/${detteId}`, null, {
+      return await this.api.patch(`dettes/${detteId}`, {
         montant,
         updatedAt: new Date().toISOString()
       });
@@ -66,11 +74,16 @@ export class DetteService {
 
   async getHistorique(clientId) {
     try {
-      const response = await this.api.get(`dettes/historique`, { clientId });
-      return response.data;
+      const historique = await this.api.get("dettes/historique");
+      if (!Array.isArray(historique)) return [];
+      
+      // Filtrer côté client
+      return historique.filter(dette => 
+        String(dette.clientId) === String(clientId)
+      );
     } catch (error) {
       console.error("DetteService.getHistorique:", error);
-      throw error;
+      return [];
     }
   }
 }

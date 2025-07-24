@@ -2,6 +2,7 @@ import { ArticleService } from "../../../services/articleService.js";
 import { CategoryService } from "../../../services/categoriService.js";
 import { DetteService } from "../../../services/detteService.js";
 import { Modal } from "../../components/Modal.js";
+import { validate } from "../../../utils/validation.js";
 export default class ClientArticlesScreen {
   constructor(root) {
     this.root = root;
@@ -120,84 +121,114 @@ export default class ClientArticlesScreen {
     return category ? category.libelle : "Inconnue";
   }
 
-  _renderRequestModal(article) {
-    const form = document.createElement("form");
-    form.className = "space-y-4";
-    form.innerHTML = `
-      <div class="flex items-center space-x-4">
-        <div class="h-20 w-20 bg-gray-200 flex items-center justify-center rounded-lg">
-          ${
-            article.image
-              ? `<img src="${article.image}" alt="${article.libelle}" class="object-cover h-full w-full rounded-lg">`
-              : '<span class="text-gray-500 text-xs">Aucune image</span>'
-          }
-        </div>
-        <div>
-          <h3 class="font-bold">${article.libelle}</h3>
-          <p class="text-gray-600">${article.prix.toFixed(2)} €</p>
-        </div>
+ _renderRequestModal(article) {
+  const form = document.createElement("form");
+  form.className = "space-y-4";
+  form.innerHTML = `
+    <div class="flex items-center space-x-4">
+      <div class="h-20 w-20 bg-gray-200 flex items-center justify-center rounded-lg">
+        ${
+          article.image
+            ? `<img src="${article.image}" alt="${article.libelle}" class="object-cover h-full w-full rounded-lg">`
+            : '<span class="text-gray-500 text-xs">Aucune image</span>'
+        }
       </div>
-
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Montant (€)</label>
-        <input type="number" name="montant" required min="1" step="0.01" max="${
-          article.prix
-        }"
-               value="${article.prix}" 
-               class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-300">
+        <h3 class="font-bold">${article.libelle}</h3>
+        <p class="text-gray-600">${article.prix.toFixed(2)} €</p>
       </div>
+    </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Motif</label>
-        <textarea name="raison" rows="3" required
-                  class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-300"
-                  placeholder="Pourquoi avez-vous besoin de ce crédit?"></textarea>
-      </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Montant (€)</label>
+      <input type="number" name="montant" min="1" step="0.01" max="${
+        article.prix
+      }"
+             value="${article.prix}" 
+             class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-300">
+      <p class="text-rose-500 text-sm mt-1 error-message hidden" data-for="montant"></p>
+    </div>
 
-      <div class="flex justify-end space-x-3 pt-2">
-        <button type="button" id="btn-cancel" class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600">
-          Annuler
-        </button>
-        <button type="submit" class="px-4 py-2 rounded-lg bg-rose-500 hover:bg-rose-600 text-white">
-          <i class="far fa-paper-plane mr-2"></i> Envoyer demande
-        </button>
-      </div>
-    `;
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Motif</label>
+      <textarea name="raison" rows="3"
+                class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-200 focus:border-rose-300"
+                placeholder="Pourquoi avez-vous besoin de ce crédit?"></textarea>
+      <p class="text-rose-500 text-sm mt-1 error-message hidden" data-for="raison"></p>
+    </div>
 
-    const modal = new Modal(`Demande de crédit pour ${article.libelle}`, form);
-    modal.open();
+    <div class="flex justify-end space-x-3 pt-2">
+      <button type="button" id="btn-cancel" class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600">
+        Annuler
+      </button>
+      <button type="submit" class="px-4 py-2 rounded-lg bg-rose-500 hover:bg-rose-600 text-white">
+        <i class="far fa-paper-plane mr-2"></i> Envoyer demande
+      </button>
+    </div>
+  `;
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const montant = parseFloat(formData.get("montant"));
+  const modal = new Modal(`Demande de crédit pour ${article.libelle}`, form);
+  modal.open();
 
-      if (montant > article.prix) {
-        alert("Le montant demandé ne peut pas dépasser le prix de l'article");
-        return;
-      }
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    const montant = parseFloat(data.montant);
 
-      try {
-        await this.detteSvc.createDemande({
-          clientId: this.state.user?.id,
-          articleId: article.id,
-          articleLibelle: article.libelle,
-          montant: montant,
-          raison: formData.get("raison"),
-        });
+    // Validation
+    const rules = {
+      montant: ['required', 'number'],
+      raison: ['required']
+    };
 
-        modal.close();
-        alert("Votre demande a été envoyée avec succès!");
-      } catch (error) {
-        console.error("Erreur:", error);
-        alert(`Erreur: ${error.message}`);
-      }
+    const errors = validate(data, rules);
+
+    // Afficher les erreurs
+    document.querySelectorAll('.error-message').forEach(el => {
+      el.classList.add('hidden');
     });
 
-    form
-      .querySelector("#btn-cancel")
-      .addEventListener("click", () => modal.close());
-  }
+    let hasErrors = false;
+    for (const field in errors) {
+      const errorElement = form.querySelector(`.error-message[data-for="${field}"]`);
+      if (errorElement) {
+        errorElement.textContent = errors[field];
+        errorElement.classList.remove('hidden');
+        hasErrors = true;
+      }
+    }
+
+    if (montant > article.prix) {
+      const errorElement = form.querySelector(`.error-message[data-for="montant"]`);
+      if (errorElement) {
+        errorElement.textContent = "Le montant ne peut pas dépasser le prix de l'article";
+        errorElement.classList.remove('hidden');
+        hasErrors = true;
+      }
+    }
+
+    if (hasErrors) return;
+
+    try {
+      await this.detteSvc.createDemande({
+        clientId: this.state.user?.id,
+        articleId: article.id,
+        articleLibelle: article.libelle,
+        montant: montant,
+        raison: data.raison,
+      });
+
+      modal.close();
+      alert("Votre demande a été envoyée avec succès!");
+    } catch (error) {
+      console.error("Erreur:", error);
+      alert(`Erreur: ${error.message}`);
+    }
+  });
+
+  form.querySelector('#btn-cancel').addEventListener('click', () => modal.close());
+}
 
   setUpEventListeners() {
     // Bouton retour
