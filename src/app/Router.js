@@ -8,6 +8,8 @@ import ClientScreen from "../ui/screens/Client/ClientScreen.js";
 import AdminBoutiquierScreen from "../ui/screens/Admin/AdminBoutiquierScreen.js";
 import AdminBoutiquierDetailScreen from "../ui/screens/Admin/AdminBoutiquierDetailScreen.js";
 import BoutiquierCategorieScreen from "../ui/screens/Boutiquier/BoutiquierCategorieScreen.js";
+import BoutiquierArticleScreen from "../ui/screens/Boutiquier/BoutiquierArticleScreen.js";
+
 
 
 export default class Router {
@@ -92,6 +94,15 @@ route() {
     case "#categories":
       new BoutiquierCategorieScreen(content).render();
       break;
+      case "#boutiquier-articles":
+    // On récupère l'utilisateur connecté (boutiquier)
+    const user = this.authSvc.getCurrentUser();
+    if (user && user.id_role === "2") {  // si boutiquier
+      new BoutiquierArticleScreen(content, user.id).render();
+    } else {
+      content.innerHTML = "<p>Accès non autorisé</p>";
+    }
+    break;
     default:
       content.innerHTML = "<h1>404 - Page non trouvée</h1>";
   }

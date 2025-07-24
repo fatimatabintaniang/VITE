@@ -124,5 +124,29 @@
       "deleted": true,
       "boutiquier_id": 2
     }
+  ],
+  "articles": [
+    {
+      "id": "f2e4",
+      "libelle": "balla",
+      "description": "betette",
+      "prix": 3000,
+      "image": "https://pikaso.cdnpk.net/public/production/prompt-templates/210.jpeg?preview=1",
+      "categoryId": "2",
+      "boutiquier_id": "2",
+      "stock": 0,
+      "deleted": false
+    },
+    {
+      "id": "331d",
+      "libelle": "vvvvvv",
+      "description": "bbbbbbbbb",
+      "prix": 40000,
+      "image": "https://pikaso.cdnpk.net/public/production/prompt-templates/210.jpeg?preview=1",
+      "categoryId": "d0b2",
+      "boutiquier_id": "4de0",
+      "stock": 0,
+      "deleted": false
+    }
   ]
 }
