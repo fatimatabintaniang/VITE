@@ -1,76 +1,66 @@
+
+
+
+import { utilisateurService } from "../../../services/utilisateurService.js";
+import { roleService } from "../../../services/roleService.js";
+
 export default class AdminScreen {
   constructor(root) {
     this.root = root;
+    this.utilisateurSvc = new utilisateurService();
+    this.roleSvc = new roleService();
   }
 
-  render() {
-    this.root.innerHTML = `
-    <div class="min-h-screen bg-gray-50 mt-[10vh]">
-      <!-- Header -->
-      <div class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <h1 class="text-2xl font-bold text-gray-900">Tableau de Bord Admin</h1>
-      
-        </div>
-      </div>
+  async render() {
+    this.root.innerHTML = this.getHTMLSkeleton();
 
-      <!-- Main Content -->
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <!-- Card 1 -->
-          <div class="card bg-base-100 shadow-md">
-            <div class="card-body">
-              <h2 class="card-title text-gray-500">Utilisateurs</h2>
-              <p class="text-3xl font-bold">1,234</p>
-              <div class="text-success flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
-                </svg>
-                <span>12% vs mois dernier</span>
-              </div>
-            </div>
-          </div>
+    await this.renderStats();
+  }
 
-          <!-- Card 2 -->
-          <div class="card bg-base-100 shadow-md">
-            <div class="card-body">
-              <h2 class="card-title text-gray-500">Rôles</h2>
-              <p class="text-3xl font-bold">15</p>
-              <div class="text-warning flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M12 13a1 1 0 100 2h5a1 1 0 001-1v-5a1 1 0 10-2 0v2.586l-4.293-4.293a1 1 0 00-1.414 0L8 9.586l-4.293-4.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L11 9.414 14.586 13H12z" clip-rule="evenodd" />
-                </svg>
-                <span>3 nouveaux</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="card bg-base-100 shadow-md">
-            <div class="card-body">
-              <h2 class="card-title text-gray-500">Permissions</h2>
-              <p class="text-3xl font-bold">42</p>
-              <div class="text-error flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414L11.414 12l3.293 3.293a1 1 0 01-1.414 1.414L10 13.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 12 5.293 8.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-                <span>2 supprimées</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="card bg-base-100 shadow-md">
-            <div class="card-body">
-              <h2 class="card-title text-gray-500">Activité</h2>
-              <p class="text-3xl font-bold">87%</p>
-              <div class="radial-progress text-primary" style="--value:87; --size:2.5rem;">87%</div>
-            </div>
+  getHTMLSkeleton() {
+    return `
+      <div class="min-h-screen bg-gray-50 mt-[10vh]">
+        <!-- Header -->
+        <div class="bg-white shadow-sm">
+          <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-gray-900">Tableau de Bord Admin</h1>
           </div>
         </div>
 
-        <!-- Recent Activity & Quick Actions -->
+        <!-- Main Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <!-- Stats Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="card bg-base-100 shadow-md">
+              <div class="card-body">
+                <h2 class="card-title text-gray-500">Utilisateurs</h2>
+                <p id="nbUsers" class="text-3xl font-bold">...</p>
+              </div>
+            </div>
+
+            <div class="card bg-base-100 shadow-md">
+              <div class="card-body">
+                <h2 class="card-title text-gray-500">Rôles</h2>
+                <p id="nbRoles" class="text-3xl font-bold">...</p>
+              </div>
+            </div>
+
+            <div class="card bg-base-100 shadow-md">
+              <div class="card-body">
+                <h2 class="card-title text-gray-500">Permissions</h2>
+                <p id="" class="text-3xl font-bold">06</p>
+              </div>
+            </div>
+
+            <div class="card bg-base-100 shadow-md">
+              <div class="card-body">
+                <h2 class="card-title text-gray-500">Activité</h2>
+                <p id="" class="text-3xl font-bold">12</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity & Quick Actions -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Recent Activity -->
           <div class="lg:col-span-2">
@@ -159,8 +149,21 @@ export default class AdminScreen {
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
     `;
+  }
+
+  async renderStats() {
+    try {
+      const users = await this.utilisateurSvc.getAllUtilisateurs();
+      const roles = await this.roleSvc.getAllRoles();
+
+      document.getElementById('nbUsers').innerText = users.length;
+      document.getElementById('nbRoles').innerText = roles.length;
+
+    } catch (error) {
+      console.error("Erreur lors du chargement des statistiques:", error);
+    }
   }
 }
