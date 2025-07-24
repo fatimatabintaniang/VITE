@@ -14,6 +14,13 @@ export function validate(data, rules) {
         }
       }
 
+      if (rule === "number") {
+  if (value === "" || isNaN(parseFloat(value))) {
+    errors[field] = "Ce champ doit être un nombre";
+    break;
+  }
+}
+
       if (rule === "email") {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (value && !emailRegex.test(value)) {
