@@ -114,24 +114,14 @@
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753358370/impjqb0d74s43jqepdnk.jpg"
     },
     {
-      "id": "16ff",
-      "nom": "",
-      "prenom": "",
-      "email": "",
-      "telephone": "",
-      "password": "",
+      "id": "0282",
+      "nom": "sy",
+      "prenom": "mouhamed",
+      "email": "mouhamedsy2221@gmail.com",
+      "telephone": "773632963",
+      "password": "1234567",
       "id_role": "2",
-      "image": null
-    },
-    {
-      "id": "c651",
-      "nom": "",
-      "prenom": "",
-      "email": "",
-      "telephone": "",
-      "password": "",
-      "id_role": "2",
-      "image": null
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png"
     }
   ],
   "roles": [
@@ -166,20 +156,24 @@
       }
     },
     {
-      "id": "87a0",
-      "id_utilisateur": "16ff",
+      "id": "5b6c",
+      "id_utilisateur": "3",
       "localisation": {
-        "latitude": null,
-        "longitude": null
+        "longitude": "-17.4280",
+        "latitude": "14.6928"
       }
     },
     {
-      "id": "9224",
-      "id_utilisateur": "c651",
+      "id": "6b7c",
+      "id_utilisateur": "3",
       "localisation": {
-        "latitude": null,
-        "longitude": null
+        "longitude": "-17.4280",
+        "latitude": "14.6928"
       }
+    },
+    {
+      "id": "a0d4",
+      "id_utilisateur": "0282"
     }
   ],
   "clients": [
