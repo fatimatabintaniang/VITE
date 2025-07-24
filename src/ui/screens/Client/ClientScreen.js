@@ -1,9 +1,11 @@
 import { AuthService } from "../../../services/authService.js";
 import { DetteService } from "../../../services/detteService.js";
+import { Modal } from "../../components/Modal.js";
+
 export default class ClientScreen {
   constructor(root) {
     this.root = root;
-    this.authSvc = new AuthService;
+    this.authSvc = new AuthService();
     this.detteSvc = new DetteService();
     this.state = {
       user: null,
@@ -30,11 +32,11 @@ export default class ClientScreen {
         <div class="flex justify-between items-center mb-8">
           <h1 class="text-3xl font-light text-slate-700">Bonjour, ${this.state.user?.prenom || ''}</h1>
           <div class="flex gap-4">
-            <button id="btn-articles" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-all">
-              <i class="fas fa-store mr-2"></i> Voir les articles
+            <button id="btn-articles" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-all">
+              <i class="fas fa-store"></i> Voir les articles
             </button>
-            <button id="btn-logout" class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all">
-              <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion
+            <button id="btn-logout" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all">
+              <i class="fas fa-sign-out-alt"></i> Déconnexion
             </button>
           </div>
         </div>
@@ -43,8 +45,8 @@ export default class ClientScreen {
           <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-100">
             <h2 class="text-xl font-normal text-slate-700 mb-4">Demande de crédit</h2>
             
-            <button id="btn-request-debt" class="w-full py-3 px-4 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition-all mb-6">
-              <i class="far fa-plus-circle mr-2"></i> Nouvelle demande
+            <button id="btn-request-debt" class="w-full py-3 px-4 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition-all mb-6 flex items-center justify-center gap-2">
+              <i class="far fa-plus-circle"></i> Nouvelle demande
             </button>
             
             <h3 class="font-medium text-slate-600 mb-3">Vos demandes</h3>
@@ -68,7 +70,6 @@ export default class ClientScreen {
   }
 
   _renderDemandesList() {
-    // console.log("Demandes:", this.state.demandes); // avant le length
     if (this.state.demandes.length === 0) {
       return `<p class="text-slate-400 italic">Aucune demande en cours</p>`;
     }

@@ -1,7 +1,7 @@
 import { ArticleService } from "../../../services/articleService.js";
 import { CategoryService } from "../../../services/categoriService.js";
 import { DetteService } from "../../../services/detteService.js";
-
+import { Modal } from "../../components/Modal.js";
 export default class ClientArticlesScreen {
   constructor(root) {
     this.root = root;
