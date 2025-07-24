@@ -1,11 +1,12 @@
 
 import Navbar from "../ui/components/Navbar.js";
 import { AuthService } from "../services/authService.js";
-import LoginScreen from "../ui/screens/LoginScreen.js";
-import AdminScreen from "../ui/screens/AdminScreen.js";
-import BoutiquierScreen from "../ui/screens/BoutiquierScreen.js";
-import ClientScreen from "../ui/screens/ClientScreen.js";
-import AdminBoutiquierScreen from "../ui/screens/AdminBoutiquierScreen.js";
+import LoginScreen from "../ui/screens/Security/LoginScreen.js";
+import AdminScreen from "../ui/screens/Admin/AdminScreen.js";
+import BoutiquierScreen from "../ui/screens/Boutiquier/BoutiquierScreen.js";
+import ClientScreen from "../ui/screens/Client/ClientScreen.js";
+import AdminBoutiquierScreen from "../ui/screens/Admin/AdminBoutiquierScreen.js";
+import AdminBoutiquierDetailScreen from "../ui/screens/Admin/AdminBoutiquierDetailScreen.js";
 
 export default class Router {
   constructor(appRoot) {
@@ -58,6 +59,13 @@ route() {
   // Render content
   const content = document.getElementById("content");
 
+  // Gestion de la route dynamique avant le switch
+  if (hash.startsWith("#admin-boutiquier-detail-")) {
+    const id = hash.split("-").pop();  // extrait l'id
+    new AdminBoutiquierDetailScreen(content, id).render();
+    return;
+  }
+
   switch (hash) {
     case "#login":
       new LoginScreen(content).render();
@@ -78,5 +86,6 @@ route() {
       content.innerHTML = "<h1>404 - Page non trouvée</h1>";
   }
 }
+
 
 }
