@@ -53,14 +53,14 @@
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753360360/oxsggtbtfdri7isipq5k.jpg"
     },
     {
-      "id": "7866",
-      "nom": "Ndiaye",
-      "prenom": "Daro",
-      "email": "daro@gmail.com",
-      "telephone": "777777777",
+      "id": "457a",
+      "nom": "niass",
+      "prenom": "mara",
+      "email": "mara@gmail.com",
+      "telephone": "764533345",
       "password": "milk123",
       "id_role": "2",
-      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753364856/ezzgiw6bg8uewcgsaxm3.png"
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753366356/oeouoxpkiihgwlkojjom.webp"
     }
   ],
   "roles": [
@@ -103,8 +103,12 @@
       }
     },
     {
-      "id": "fac7",
-      "id_utilisateur": "7866"
+      "id": "824c",
+      "id_utilisateur": "457a",
+      "localisation": {
+        "latitude": 14.7511,
+        "longitude": -17.452867
+      }
     }
   ]
 }

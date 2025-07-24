@@ -176,71 +176,83 @@ export default class AdminBoutiquierScreen {
     };
 
     // Soumission
-    form.onsubmit = async (e) => {
-    e.preventDefault();
+form.onsubmit = async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData(form);
-    const fileInput = form.querySelector('[name="image"]').files[0];
+  const formData = new FormData(form);
+  const fileInput = form.querySelector('[name="image"]').files[0];
 
-    const boutiquier = {
-      nom: formData.get("nom"),
-      prenom: formData.get("prenom"),
-      email: formData.get("email"),
-      password: formData.get("password"),
-      telephone: formData.get("telephone"),
-      latitude: formData.get("latitude"),
-      longitude: formData.get("longitude"),
-    };
-
-    // ✅ VALIDATION GÉNÉRIQUE
-    const rules = {
-      nom: ["required"],
-      prenom: ["required"],
-      email: ["required", "email"],
-      password: ["required", "min:6"],
-      telephone: ["required", "phone"],
-      latitude: ["required", "number"],
-      longitude: ["required", "number"],
-    };
-
-    const errors = validate(boutiquier, rules);
-
-    // Réinitialise les messages d'erreur
-    form.querySelectorAll("p[id$='-error']").forEach(el => {
-      el.textContent = "";
-      el.classList.add("hidden");
-    });
-
-    if (Object.keys(errors).length > 0) {
-      for (const key in errors) {
-        const errorEl = form.querySelector(`#${key}-error`);
-        if (errorEl) {
-          errorEl.textContent = errors[key];
-          errorEl.classList.remove("hidden");
-        }
-      }
-      return; 
-    }
-
-    //  UPLOAD IMAGE
-    let imageUrl = null;
-    if (fileInput) {
-      imageUrl = await this.boutiquierSvc.uploadImage(fileInput);
-    }
-
-    boutiquier.image = imageUrl;
-
-    try {
-      await this.boutiquierSvc.create(boutiquier);
-      modal.close();
-      this.state.imagePreview = null;
-      this.render();
-    } catch (error) {
-      const errorEl = form.querySelector("#form-error");
-      errorEl.textContent = error.message || "Erreur lors de la création";
-      errorEl.classList.remove("hidden");
-    }
+  // ✅ Objet à plat pour validation
+  const dataToValidate = {
+    nom: formData.get("nom"),
+    prenom: formData.get("prenom"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+    telephone: formData.get("telephone"),
+    latitude: formData.get("latitude"),
+    longitude: formData.get("longitude"),
   };
+
+  const rules = {
+    nom: ["required"],
+    prenom: ["required"],
+    email: ["required", "email"],
+    password: ["required", "min:6"],
+    telephone: ["required", "phone"],
+    latitude: ["required", "number"],
+    longitude: ["required", "number"],
+  };
+
+  const errors = validate(dataToValidate, rules);
+
+  // Réinitialise erreurs
+  form.querySelectorAll("p[id$='-error']").forEach(el => {
+    el.textContent = "";
+    el.classList.add("hidden");
+  });
+
+  if (Object.keys(errors).length > 0) {
+    for (const key in errors) {
+      const errorEl = form.querySelector(`#${key}-error`);
+      if (errorEl) {
+        errorEl.textContent = errors[key];
+        errorEl.classList.remove("hidden");
+      }
+    }
+    return;
+  }
+
+  // ✅ Construire boutiquier final après validation
+  const boutiquier = {
+    nom: dataToValidate.nom,
+    prenom: dataToValidate.prenom,
+    email: dataToValidate.email,
+    password: dataToValidate.password,
+    telephone: dataToValidate.telephone,
+    localisation: {
+      latitude: parseFloat(dataToValidate.latitude),
+      longitude: parseFloat(dataToValidate.longitude),
+    },
+  };
+
+  let imageUrl = null;
+  if (fileInput) {
+    imageUrl = await this.boutiquierSvc.uploadImage(fileInput);
+  }
+  boutiquier.image = imageUrl;
+
+  try {
+    await this.boutiquierSvc.create(boutiquier);
+    modal.close();
+    this.state.imagePreview = null;
+    this.render();
+  } catch (error) {
+    const errorEl = form.querySelector("#form-error");
+    errorEl.textContent = error.message || "Erreur lors de la création";
+    errorEl.classList.remove("hidden");
+  }
+};
+
   }
 
 
