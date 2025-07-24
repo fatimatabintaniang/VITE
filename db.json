@@ -105,6 +105,24 @@
       "libelle": "kkkk",
       "deleted": true,
       "boutiquier_id": 2
+    },
+    {
+      "id": "52db",
+      "libelle": "nnaaaa",
+      "deleted": false,
+      "boutiquier_id": 2
+    },
+    {
+      "id": "a273",
+      "libelle": "aaaaa",
+      "deleted": true,
+      "boutiquier_id": 2
+    },
+    {
+      "id": "7c55",
+      "libelle": "zzaaa",
+      "deleted": true,
+      "boutiquier_id": 2
     }
   ]
 }

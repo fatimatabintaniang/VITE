@@ -1,5 +1,5 @@
-import { Category } from "./Category.js";
-import { ApiClient } from "../../data/api-client.js";
+import { Category } from "../domain/category/Category.js";
+import { ApiClient } from "../data/api-client.js";
 
 export class CategoryService {
   constructor(base = "http://localhost:3000/categories") {
@@ -32,7 +32,7 @@ export class CategoryService {
   async update(c) {
   if (!c.isValid()) throw new Error("Invalid");
   if (c.id == null) throw new Error('id manquant pour update');
-  const data = await this.api.put("categories", c.id, c.toDto());
+  const data = await this.api.put("", c.id, c.toDto());
   return Category.fromDto(data);
 }
   async trash(id) {
