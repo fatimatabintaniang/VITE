@@ -38,9 +38,9 @@
       "description": "Un super ordinateur",
       "prix": 1200,
       "image": "https://pikaso.cdnpk.net/public/production/prompt-templates/209.jpeg?preview=1",
+      "id_boutiquier": "543c",
       "categoryId": "1",
-      "deleted": false,
-      "stock": 5
+      "deleted": true
     },
     {
       "id": "2",
@@ -48,9 +48,9 @@
       "description": "Un t-shirt tendance",
       "prix": 20,
       "image": "https://pikaso.cdnpk.net/public/production/prompt-templates/210.jpeg?preview=1",
+      "id_boutiquier": "",
       "categoryId": "2",
-      "deleted": false,
-      "stock": 15
+      "deleted": true
     },
     {
       "id": "3",
@@ -58,6 +58,7 @@
       "description": "Un pantalon confortable",
       "prix": 50,
       "image": "https://pikaso.cdnpk.net/public/production/prompt-templates/207.png?preview=1",
+      "id_boutiquier": "",
       "categoryId": "2",
       "deleted": false,
       "stock": 8
@@ -68,8 +69,54 @@
       "description": "Permet d'interagir avec l'ordinateur",
       "prix": 50,
       "image": "https://pikaso.cdnpk.net/public/production/prompt-templates/212.png?preview=1",
+      "id_boutiquier": "",
       "categoryId": "1",
       "stock": 10,
+      "deleted": false
+    },
+    {
+      "id": "3cc4",
+      "libelle": "new",
+      "prix": 55,
+      "image": "pppp",
+      "description": "popppppppp",
+      "id_boutiquier": "543c",
+      "deleted": true
+    },
+    {
+      "id": "dbc4",
+      "libelle": "cloudnary test",
+      "prix": 44,
+      "description": "pppppppppppp",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753440676/o3aghvr4bgqmchkrq1xz.jpg",
+      "id_boutiquier": "543c",
+      "deleted": false
+    },
+    {
+      "id": "2ee6",
+      "libelle": "new",
+      "prix": 66,
+      "description": "pppppppp",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753440808/rlxq31wj4vcl6lpuhbvr.jpg",
+      "id_boutiquier": "543c",
+      "deleted": false
+    },
+    {
+      "id": "c22d",
+      "libelle": "lll",
+      "prix": 33,
+      "description": "ppppp",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753441537/zcedsludumjpregt4l4k.jpg",
+      "id_boutiquier": "543c",
+      "deleted": true
+    },
+    {
+      "id": "89c1",
+      "libelle": "pppp",
+      "prix": 22,
+      "description": "uuuuppp",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753441575/vplr1o88vkdyr51jv5sb.jpg",
+      "id_boutiquier": "543c",
       "deleted": false
     }
   ],
@@ -117,6 +164,7 @@
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753358370/impjqb0d74s43jqepdnk.jpg",
       "deleted": false,
+      "deleted": false,
       "deletedAt": null
     },
     {
@@ -128,17 +176,6 @@
       "password": "1234567",
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png",
-      "deleted": false
-    },
-    {
-      "id": "151d",
-      "nom": "diallo",
-      "prenom": "fanta",
-      "email": "ndom@gmail.com",
-      "telephone": "781556521",
-      "password": "boutique123",
-      "id_role": "2",
-      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753439210/z9wpmtnzis32edkmjemr.webp",
       "deleted": false
     }
   ],
