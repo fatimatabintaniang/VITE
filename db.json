@@ -60,7 +60,8 @@
       "image": "https://pikaso.cdnpk.net/public/production/prompt-templates/207.png?preview=1",
       "id_boutiquier": "",
       "categoryId": "2",
-      "deleted": false
+      "deleted": false,
+      "stock": 8
     },
     {
       "id": "f333",
@@ -263,7 +264,13 @@
       "id": "1",
       "clientId": "3",
       "boutiquierId": "1",
-      "articleId": "1",
+      "articles": [
+        {
+          "id": "1",
+          "libelle": "Ordinateur portable",
+          "prix": 1200
+        }
+      ],
       "montant": 500,
       "raison": "Achat ordinateur",
       "statut": "active",
@@ -274,8 +281,13 @@
     {
       "id": "1",
       "clientId": "3",
-      "articleId": "2",
-      "articleLibelle": "T-shirt",
+      "articles": [
+        {
+          "id": "2",
+          "libelle": "T-shirt",
+          "prix": 20
+        }
+      ],
       "montant": 50,
       "raison": "Achat vêtement",
       "statut": "pending",
@@ -284,8 +296,13 @@
     {
       "id": "1005",
       "clientId": "3",
-      "articleId": "2",
-      "articleLibelle": "T-shirt",
+      "articles": [
+        {
+          "id": "2",
+          "libelle": "T-shirt",
+          "prix": 20
+        }
+      ],
       "montant": 20,
       "raison": "je voudrais avoir cette article",
       "statut": "pending",
