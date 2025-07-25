@@ -113,7 +113,7 @@
       "password": "ina@gmail.com",
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753358370/impjqb0d74s43jqepdnk.jpg",
-      "deleted": "true",
+      "deleted": false,
       "deletedAt": null
     },
     {
@@ -124,7 +124,8 @@
       "telephone": "773632963",
       "password": "1234567",
       "id_role": "2",
-      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png"
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png",
+      "deleted": false
     }
   ],
   "roles": [

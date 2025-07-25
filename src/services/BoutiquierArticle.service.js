@@ -7,7 +7,8 @@ export class BoutiquierArticleService {
 
   async listByBoutiquier(idBoutiquier) {
     
-    const { data } = await this.api.get("articles", { boutiquier_id: idBoutiquier });
+    const { data } = await this.api.get("articles", { boutiquier_id
+        : idBoutiquier });
     console.log(data);
     
     return data;

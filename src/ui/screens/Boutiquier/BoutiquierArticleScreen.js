@@ -112,14 +112,59 @@ export default class BoutiquierArticleScreen {
       })
     );
   }
+  showAddForm() {
+  const modal = document.createElement("div");
+  modal.className = "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50";
+  modal.innerHTML = `
+    <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
+      <h2 class="text-xl font-bold mb-4">Ajouter un article</h2>
+      <form id="add-article-form" class="space-y-4">
+        <input type="text" name="libelle" placeholder="Libellé" class="w-full p-2 border rounded" required />
+        <input type="number" name="prix" placeholder="Prix" class="w-full p-2 border rounded" required />
+        <input type="text" name="image" placeholder="URL de l'image" class="w-full p-2 border rounded" />
+        <textarea name="description" placeholder="Description" class="w-full p-2 border rounded"></textarea>
+        <div class="flex justify-end space-x-2">
+          <button type="button" id="cancel-add" class="px-4 py-2 bg-gray-300 rounded">Annuler</button>
+          <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  `;
+
+  // Append et gestion des événements
+  document.body.appendChild(modal);
+
+  modal.querySelector("#cancel-add").onclick = () => modal.remove();
+
+  modal.querySelector("#add-article-form").onsubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const newArticle = {
+      libelle: form.libelle.value,
+      prix: parseFloat(form.prix.value),
+      image: form.image.value || null,
+      description: form.description.value,
+      id_boutiquier: this.idBoutiquier,
+      deleted: false,
+    };
+
+    try {
+      await this.articleService.create(newArticle);
+      modal.remove();
+      this.render(); // recharger la liste
+    } catch (error) {
+      alert("Erreur lors de l'ajout : " + error.message);
+    }
+  };
+}
+
 
   bindAddButton() {
-    const btnAdd = this.container.querySelector("#btn-add");
-    if (btnAdd) {
-      btnAdd.addEventListener("click", () => {
-        alert("Ajouter un nouvel article - à implémenter !");
-        // Ici tu peux ouvrir un formulaire modal pour ajouter un article
-      });
-    }
+  const btnAdd = this.container.querySelector("#btn-add");
+  if (btnAdd) {
+    btnAdd.addEventListener("click", () => this.showAddForm());
   }
+}
+
+  
 }
