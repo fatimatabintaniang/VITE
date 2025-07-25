@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 .toast-container {
   position: fixed;
   top: 20px; /* Utilisez px pour plus de précision */
