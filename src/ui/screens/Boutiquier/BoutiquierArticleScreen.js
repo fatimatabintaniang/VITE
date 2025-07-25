@@ -1,4 +1,8 @@
 import { BoutiquierArticleService } from "../../../services/BoutiquierArticle.service.js";
+import { Modal } from "../../components/Modal.js"; // adapte le chemin si besoin
+import { confirm } from "../../components/Confirm.js";
+import { validate } from "../../../utils/validation.js";
+import { CloudinaryClient } from "../../../services/CloudinaryClient.js";
 
 const ICONS = {
   add: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -11,22 +15,17 @@ export default class BoutiquierArticleScreen {
     this.container = container;
     this.idBoutiquier = idBoutiquier;
     this.articleService = new BoutiquierArticleService();
-    this.view = "active"; // "active" ou "deleted"
+    this.view = "active";
   }
 
   async render() {
     try {
-      // Récupère tous les articles du boutiquier
       const allArticles = await this.articleService.listByBoutiquier(this.idBoutiquier);
-
-      // Filtrer selon la vue
       const articles = allArticles.filter((a) =>
         this.view === "active" ? !a.deleted : a.deleted
       );
 
       this.renderList(articles);
-
-      // Après rendu, bind event listeners des boutons pour changer la vue
       this.bindViewToggle();
       this.bindAddButton();
     } catch (err) {
@@ -36,6 +35,28 @@ export default class BoutiquierArticleScreen {
           <p class="text-lg">Erreur : ${err.message}</p>
         </div>`;
     }
+  }
+
+  renderControls() {
+    return `
+      <div class="flex justify-between items-center p-6 mt-10">
+        <h1 class="text-2xl font-bold text-gray-800">Liste des articles</h1>
+        <div class="flex items-center space-x-4">
+            <button id="btn-add" class="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
+              ${ICONS.add}
+              <span>Ajouter</span>
+            </button>
+            <div class="inline-flex rounded-md shadow-sm ml-4" role="group">
+                <button data-v="active" type="button" class="tab px-4 py-2 text-sm font-medium rounded-l-lg border ${this.view === "active" ? "bg-indigo-600 text-white" : ""}">
+                    Actifs
+                </button>
+                <button data-v="deleted" type="button" class="tab px-4 py-2 text-sm font-medium rounded-r-lg border ${this.view === "deleted" ? "bg-indigo-600 text-white" : ""}">
+                    Corbeille
+                </button>
+            </div>
+        </div>
+      </div>
+    `;
   }
 
   renderList(articles) {
@@ -67,37 +88,20 @@ export default class BoutiquierArticleScreen {
               <h3 class="text-xl font-semibold text-gray-800 mb-2">${a.libelle}</h3>
               <p class="text-lg font-bold text-emerald-500 mb-3">${a.prix} FCFA</p>
               ${a.description ? `<p class="text-gray-600 text-sm mb-4">${a.description}</p>` : ''}
-              <button class="w-full bg-red-500 text-white py-2 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity">
+              <button 
+                data-id="${a.id}" 
+                class="btn-details w-full bg-red-500 text-white py-2 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity">
                 Voir détails
               </button>
+
             </div>
           </div>`
           )
           .join("")}
       </div>`;
-  }
 
-  renderControls() {
-    // Ajoute les boutons d’ajout + toggle Actifs / Corbeille
-    return `
-      <div class="flex justify-between items-center p-6 mt-10">
-        <h1 class="text-2xl font-bold text-gray-800">Liste des articles</h1>
-        <div class="flex items-center space-x-4">
-            <button id="btn-add" class="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
-            ${ICONS.add}
-            <span>Ajouter</span>
-            </button>
-            <div class="inline-flex rounded-md shadow-sm ml-4" role="group">
-                <button data-v="active" type="button" class="tab px-4 py-2 text-sm font-medium rounded-l-lg border ${this.view === "active" ? "bg-indigo-600 text-white" : ""}">
-                    Actifs
-                </button>
-                <button data-v="deleted" type="button" class="tab px-4 py-2 text-sm font-medium rounded-r-lg border ${this.view === "deleted" ? "bg-indigo-600 text-white" : ""}">
-                    Corbeille
-                </button>
-            </div>
-        </div>
-      </div>
-    `;
+this.bindDetailsButtons();
+
   }
 
   bindViewToggle() {
@@ -107,64 +111,313 @@ export default class BoutiquierArticleScreen {
         const v = btn.getAttribute("data-v");
         if (v !== this.view) {
           this.view = v;
-          this.render(); // re-render avec nouvelle vue
+          this.render();
         }
       })
     );
   }
-  showAddForm() {
-  const modal = document.createElement("div");
-  modal.className = "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50";
-  modal.innerHTML = `
-    <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
-      <h2 class="text-xl font-bold mb-4">Ajouter un article</h2>
-      <form id="add-article-form" class="space-y-4">
-        <input type="text" name="libelle" placeholder="Libellé" class="w-full p-2 border rounded" required />
-        <input type="number" name="prix" placeholder="Prix" class="w-full p-2 border rounded" required />
-        <input type="text" name="image" placeholder="URL de l'image" class="w-full p-2 border rounded" />
-        <textarea name="description" placeholder="Description" class="w-full p-2 border rounded"></textarea>
-        <div class="flex justify-end space-x-2">
-          <button type="button" id="cancel-add" class="px-4 py-2 bg-gray-300 rounded">Annuler</button>
-          <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Ajouter</button>
-        </div>
-      </form>
+
+  bindAddButton() {
+    const btnAdd = this.container.querySelector("#btn-add");
+    if (btnAdd) {
+      btnAdd.addEventListener("click", () => this.showAddForm());
+    }
+  }
+bindDetailsButtons() {
+  const buttons = this.container.querySelectorAll(".btn-details");
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.id;
+      const article = await this.articleService.find(id);
+      console.log(article);
+      
+      this.showDetails(article);
+    });
+  });
+}
+
+
+showAddForm() {
+  const cloudinary = new CloudinaryClient();
+
+  const form = document.createElement("form");
+  form.id = "add-article-form";
+  form.className = "space-y-4 relative";
+
+  form.innerHTML = `
+    <div>
+      <input type="text" name="libelle" placeholder="Libellé" class="w-full p-2 border rounded" />
+      <p class="text-sm text-red-500 mt-1" data-error="libelle"></p>
+    </div>
+
+    <div>
+      <input type="number" name="prix" placeholder="Prix" class="w-full p-2 border rounded" />
+      <p class="text-sm text-red-500 mt-1" data-error="prix"></p>
+    </div>
+
+    <div>
+      <input type="file" name="imageFile" accept="image/*" class="w-full p-2 border rounded" />
+      <p class="text-sm text-red-500 mt-1" data-error="image"></p>
+    </div>
+
+    <div>
+      <textarea name="description" placeholder="Description" class="w-full p-2 border rounded"></textarea>
+      <p class="text-sm text-red-500 mt-1" data-error="description"></p>
+    </div>
+
+    <div class="flex justify-end space-x-2 pt-2">
+      <button type="button" id="cancel-add" class="px-4 py-2 bg-gray-300 rounded">Annuler</button>
+      <button type="submit" class="submit-btn px-4 py-2 bg-indigo-600 text-white rounded flex items-center justify-center gap-2">
+        <span>Ajouter</span>
+        <svg class="loader hidden w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+        </svg>
+      </button>
     </div>
   `;
 
-  // Append et gestion des événements
-  document.body.appendChild(modal);
+  const modal = new Modal("Ajouter un article", form);
+  modal.open();
 
-  modal.querySelector("#cancel-add").onclick = () => modal.remove();
+  form.querySelector("#cancel-add").onclick = () => modal.close();
 
-  modal.querySelector("#add-article-form").onsubmit = async (e) => {
+  form.onsubmit = async (e) => {
     e.preventDefault();
-    const form = e.target;
+
+    const submitBtn = form.querySelector(".submit-btn");
+    const loader = form.querySelector(".loader");
+    submitBtn.disabled = true;
+    loader.classList.remove("hidden");
+
+    const imageInput = form.imageFile;
+    const file = imageInput.files[0];
+
+    const formData = {
+      libelle: form.libelle.value.trim(),
+      prix: form.prix.value.trim(),
+      description: form.description.value.trim(),
+    };
+
+    const errors = validate(formData, {
+      libelle: ["required", "min:3"],
+      prix: ["required", "number"],
+      description: ["min:5"],
+    });
+
+    form.querySelectorAll("[data-error]").forEach((el) => (el.textContent = ""));
+
+    if (Object.keys(errors).length > 0) {
+      for (const field in errors) {
+        const el = form.querySelector(`[data-error="${field}"]`);
+        if (el) el.textContent = errors[field];
+      }
+      submitBtn.disabled = false;
+      loader.classList.add("hidden");
+      return;
+    }
+
+    let imageUrl = null;
+
+    if (file) {
+      try {
+        const result = await cloudinary.uploadImage(file);
+        imageUrl = result.secure_url;
+      } catch (err) {
+        const imageError = form.querySelector(`[data-error="image"]`);
+        if (imageError) imageError.textContent = err.message;
+        submitBtn.disabled = false;
+        loader.classList.add("hidden");
+        return;
+      }
+    }
+
     const newArticle = {
-      libelle: form.libelle.value,
-      prix: parseFloat(form.prix.value),
-      image: form.image.value || null,
-      description: form.description.value,
+      ...formData,
+      image: imageUrl,
+      prix: parseFloat(formData.prix),
       id_boutiquier: this.idBoutiquier,
       deleted: false,
     };
 
     try {
       await this.articleService.create(newArticle);
-      modal.remove();
-      this.render(); // recharger la liste
+      modal.close();
+      this.render(); // Recharge la liste des articles
     } catch (error) {
       alert("Erreur lors de l'ajout : " + error.message);
+    } finally {
+      submitBtn.disabled = false;
+      loader.classList.add("hidden");
     }
   };
 }
 
+showDetails(article) {
+  const detailContainer = document.createElement("div");
+  detailContainer.innerHTML = `
+    <div class="space-y-4">
+      <img src="${article.image || 'https://via.placeholder.com/400x300'}" alt="${article.libelle}" class="w-full h-60 object-cover rounded-md" />
+      <h2 class="text-xl font-bold">${article.libelle}</h2>
+      <p><strong>Prix :</strong> ${article.prix} FCFA</p>
+      <p><strong>Description :</strong><br>${article.description || "Aucune"}</p>
+      <div class="flex justify-end gap-4 mt-4">
+        <button class="btn-edit px-4 py-2 bg-indigo-600 text-white rounded">Modifier</button>
+        <button class="btn-delete px-4 py-2 bg-red-600 text-white rounded">Supprimer</button>
+      </div>
+    </div>
+  `;
 
-  bindAddButton() {
-  const btnAdd = this.container.querySelector("#btn-add");
-  if (btnAdd) {
-    btnAdd.addEventListener("click", () => this.showAddForm());
-  }
+  const modal = new Modal("Détails de l'article", detailContainer);
+  modal.open();
+
+  // Modifier
+  detailContainer.querySelector(".btn-edit").onclick = () => {
+    modal.close();
+    this.showEditForm(article);
+  };
+
+  // Supprimer (soft delete)
+  detailContainer.querySelector(".btn-delete").onclick = async () => {
+    if (await confirm("Êtes-vous sûr de vouloir archiver cette article ?")) {
+      await this.articleService.softDelete(article.id);
+      modal.close();
+      this.render();
+    }
+  };
 }
 
-  
+createElementFromHTML(htmlString) {
+  const div = document.createElement('div');
+  div.innerHTML = htmlString.trim();
+  return div.firstChild;
+}
+
+showEditForm(article) {
+  const cloudinary = new CloudinaryClient();
+
+  const form = document.createElement("form");
+  form.className = "space-y-4 relative";
+
+  form.innerHTML = `
+    <div>
+      <input type="text" name="libelle" value="${article.libelle}" placeholder="Libellé" class="w-full p-2 border rounded" />
+      <p class="text-sm text-red-500 mt-1" data-error="libelle"></p>
+    </div>
+
+    <div>
+      <input type="number" name="prix" value="${article.prix}" placeholder="Prix" class="w-full p-2 border rounded" />
+      <p class="text-sm text-red-500 mt-1" data-error="prix"></p>
+    </div>
+
+    <div>
+      <input type="file" name="imageFile" accept="image/*" class="w-full p-2 border rounded" />
+      <p class="text-sm text-red-500 mt-1" data-error="image"></p>
+    </div>
+
+    <div>
+      <textarea name="description" placeholder="Description" class="w-full p-2 border rounded">${article.description || ""}</textarea>
+      <p class="text-sm text-red-500 mt-1" data-error="description"></p>
+    </div>
+
+    <div class="flex justify-end space-x-2 pt-2">
+      <button type="button" id="cancel-edit" class="px-4 py-2 bg-gray-300 rounded">Annuler</button>
+      <button type="submit" class="submit-btn px-4 py-2 bg-indigo-600 text-white rounded flex items-center justify-center gap-2">
+        <span>Modifier</span>
+        <svg class="loader hidden w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+        </svg>
+      </button>
+    </div>
+  `;
+
+  const modal = new Modal("Modifier l'article", form);
+  modal.open();
+
+  form.querySelector("#cancel-edit").onclick = () => modal.close();
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+
+    const submitBtn = form.querySelector(".submit-btn");
+    const loader = form.querySelector(".loader");
+    submitBtn.disabled = true;
+    loader.classList.remove("hidden");
+
+    const imageInput = form.imageFile;
+    const file = imageInput.files[0];
+
+    const formData = {
+      libelle: form.libelle.value.trim(),
+      prix: form.prix.value.trim(),
+      description: form.description.value.trim(),
+    };
+
+    form.querySelectorAll("[data-error]").forEach((el) => (el.textContent = ""));
+
+    const errors = validate(formData, {
+      libelle: ["required", "min:3"],
+      prix: ["required", "number"],
+      description: ["min:5"],
+    });
+
+    if (Object.keys(errors).length > 0) {
+      for (const field in errors) {
+        const el = form.querySelector(`[data-error="${field}"]`);
+        if (el) el.textContent = errors[field];
+      }
+      submitBtn.disabled = false;
+      loader.classList.add("hidden");
+      return;
+    }
+
+    // Vérifier unicité (sauf si c’est le même libellé non modifié)
+    if (formData.libelle.toLowerCase() !== article.libelle.toLowerCase()) {
+      const existing = await this.articleService.findByLibelleAndBoutiquier(
+        formData.libelle,
+        this.idBoutiquier
+      );
+      if (existing) {
+        form.querySelector('[data-error="libelle"]').textContent = "Ce libellé existe déjà.";
+        submitBtn.disabled = false;
+        loader.classList.add("hidden");
+        return;
+      }
+    }
+
+    let imageUrl = article.image;
+
+    if (file) {
+      try {
+        const result = await cloudinary.uploadImage(file);
+        imageUrl = result.secure_url;
+      } catch (err) {
+        const imageError = form.querySelector(`[data-error="image"]`);
+        if (imageError) imageError.textContent = err.message;
+        submitBtn.disabled = false;
+        loader.classList.add("hidden");
+        return;
+      }
+    }
+
+    const updatedArticle = {
+      ...article,
+      ...formData,
+      prix: parseFloat(formData.prix),
+      image: imageUrl,
+    };
+
+    try {
+      await this.articleService.update(article.id, updatedArticle);
+      modal.close();
+      this.render();
+    } catch (error) {
+      alert("Erreur lors de la mise à jour : " + error.message);
+    } finally {
+      submitBtn.disabled = false;
+      loader.classList.add("hidden");
+    }
+  };
+}
 }
