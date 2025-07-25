@@ -1,5 +1,6 @@
 @import "tailwindcss";
-/* @plugin "daisyui"; */
+@plugin "daisyui";
+
 
 .toast-container {
   position: fixed;
