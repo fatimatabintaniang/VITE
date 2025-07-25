@@ -29,6 +29,18 @@
       "libelle": "Mode",
       "boutiquier_id": "d016",
       "deleted": true
+    },
+    {
+      "id": "fdfc",
+      "libelle": "maCat",
+      "deleted": false,
+      "boutiquier_id": "543c"
+    },
+    {
+      "id": "1f30",
+      "libelle": "maCat33",
+      "deleted": false,
+      "boutiquier_id": "543c"
     }
   ],
   "articles": [
@@ -118,6 +130,25 @@
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753441575/vplr1o88vkdyr51jv5sb.jpg",
       "id_boutiquier": "543c",
       "deleted": false
+    },
+    {
+      "id": "0cf9",
+      "libelle": "new",
+      "prix": 34,
+      "description": "PPPPP",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753444384/lf4y0ndqmcnfbuzao8fi.jpg",
+      "id_boutiquier": "2",
+      "deleted": false
+    },
+    {
+      "id": "8030",
+      "libelle": "donc",
+      "prix": 44,
+      "description": "pooooooo",
+      "categorie_id": "fdfc",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753447162/h4ps3umxtp3j5vsbevhk.jpg",
+      "id_boutiquier": "543c",
+      "deleted": false
     }
   ],
   "utilisateurs": [
@@ -163,7 +194,6 @@
       "password": "ina@gmail.com",
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753358370/impjqb0d74s43jqepdnk.jpg",
-      "deleted": false,
       "deleted": false,
       "deletedAt": null
     },

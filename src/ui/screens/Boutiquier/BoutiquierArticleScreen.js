@@ -3,6 +3,7 @@ import { Modal } from "../../components/Modal.js"; // adapte le chemin si besoin
 import { confirm } from "../../components/Confirm.js";
 import { validate } from "../../../utils/validation.js";
 import { CloudinaryClient } from "../../../services/CloudinaryClient.js";
+import { CategoryService } from "../../../domain/category/category.service.js";
 
 const ICONS = {
   add: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -15,6 +16,7 @@ export default class BoutiquierArticleScreen {
     this.container = container;
     this.idBoutiquier = idBoutiquier;
     this.articleService = new BoutiquierArticleService();
+    this.categoryService = new CategoryService(); // ✅ assure-toi que c'est bien là
     this.view = "active";
   }
 
@@ -137,8 +139,9 @@ bindDetailsButtons() {
 }
 
 
-showAddForm() {
+async showAddForm() {
   const cloudinary = new CloudinaryClient();
+const { data: categories } = await this.categoryService.list(1, 1000, this.idBoutiquier);
 
   const form = document.createElement("form");
   form.id = "add-article-form";
@@ -153,6 +156,17 @@ showAddForm() {
     <div>
       <input type="number" name="prix" placeholder="Prix" class="w-full p-2 border rounded" />
       <p class="text-sm text-red-500 mt-1" data-error="prix"></p>
+    </div>
+
+    <div>
+      <select name="categorie_id" class="w-full p-2 border rounded">
+        <option value="">-- Choisir une catégorie --</option>
+        ${categories
+          .filter((c) => !c.deleted)
+          .map((cat) => `<option value="${cat.id}">${cat.libelle}</option>`)
+          .join("")}
+      </select>
+      <p class="text-sm text-red-500 mt-1" data-error="categorie_id"></p>
     </div>
 
     <div>
@@ -190,23 +204,24 @@ showAddForm() {
     submitBtn.disabled = true;
     loader.classList.remove("hidden");
 
-    const imageInput = form.imageFile;
-    const file = imageInput.files[0];
+    const file = form.imageFile.files[0];
 
     const formData = {
       libelle: form.libelle.value.trim(),
       prix: form.prix.value.trim(),
       description: form.description.value.trim(),
+      categorie_id: form.categorie_id.value,
     };
 
+    // Validation
     const errors = validate(formData, {
       libelle: ["required", "min:3"],
       prix: ["required", "number"],
       description: ["min:5"],
+      categorie_id: ["required"],
     });
 
     form.querySelectorAll("[data-error]").forEach((el) => (el.textContent = ""));
-
     if (Object.keys(errors).length > 0) {
       for (const field in errors) {
         const el = form.querySelector(`[data-error="${field}"]`);
@@ -217,8 +232,8 @@ showAddForm() {
       return;
     }
 
+    // Image upload
     let imageUrl = null;
-
     if (file) {
       try {
         const result = await cloudinary.uploadImage(file);
@@ -234,8 +249,8 @@ showAddForm() {
 
     const newArticle = {
       ...formData,
-      image: imageUrl,
       prix: parseFloat(formData.prix),
+      image: imageUrl,
       id_boutiquier: this.idBoutiquier,
       deleted: false,
     };
@@ -243,7 +258,7 @@ showAddForm() {
     try {
       await this.articleService.create(newArticle);
       modal.close();
-      this.render(); // Recharge la liste des articles
+      this.render(); // Actualise la liste des articles
     } catch (error) {
       alert("Erreur lors de l'ajout : " + error.message);
     } finally {
@@ -252,6 +267,7 @@ showAddForm() {
     }
   };
 }
+
 
 showDetails(article) {
   const detailContainer = document.createElement("div");
