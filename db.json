@@ -86,14 +86,14 @@
     },
     {
       "id": "2",
-      "nom": "diop",
+      "nom": "diopppp",
       "prenom": "boutiquier",
       "telephone": "783300065",
       "email": "boutiquier@gmail.com",
       "password": "boutique123",
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753374897/jhxbybnshelczasykpc1.png",
-      "deleted": "true",
+      "deleted": false,
       "deletedAt": null
     },
     {
@@ -121,13 +121,24 @@
     },
     {
       "id": "0282",
-      "nom": "sy",
+      "nom": "syyy",
       "prenom": "mouhamed",
       "email": "mouhamedsy2221@gmail.com",
       "telephone": "773632963",
       "password": "1234567",
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png",
+      "deleted": false
+    },
+    {
+      "id": "151d",
+      "nom": "diallo",
+      "prenom": "fanta",
+      "email": "ndom@gmail.com",
+      "telephone": "781556521",
+      "password": "boutique123",
+      "id_role": "2",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753439210/z9wpmtnzis32edkmjemr.webp",
       "deleted": false
     }
   ],
@@ -180,7 +191,19 @@
     },
     {
       "id": "a0d4",
-      "id_utilisateur": "0282"
+      "id_utilisateur": "0282",
+      "localisation": {
+        "latitude": 0,
+        "longitude": 0
+      }
+    },
+    {
+      "id": "0ec1",
+      "id_utilisateur": "151d",
+      "localisation": {
+        "latitude": 50,
+        "longitude": 80
+      }
     }
   ],
   "clients": [
@@ -247,6 +270,16 @@
       "raison": "je voudrais avoir cette article",
       "statut": "pending",
       "createdAt": "2025-07-20T19:13:58.711Z"
+    },
+    {
+      "id": "612f",
+      "clientId": "undefined",
+      "articleId": "3",
+      "articleLibelle": "Pantalon",
+      "montant": 50,
+      "raison": "xcvbnm,./",
+      "statut": "pending",
+      "createdAt": "2025-07-25T08:33:05.303Z"
     }
   ]
 }
