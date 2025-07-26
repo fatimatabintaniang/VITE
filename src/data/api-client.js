@@ -35,12 +35,19 @@ export class ApiClient {
     return r.json();
   }
   async patch(p = "", id, b) {
-    const r = await fetch(this._url(`${p}/${id}`), {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(b),
-    });
-    this._check(r, "PATCH");
-    return r.json();
+  const r = await fetch(this._url(`${p}/${id}`), {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(b),
+  });
+
+  if (!r.ok) {
+    const errText = await r.text(); // lis le corps texte de l'erreur
+    throw new Error(`PATCH ${p}/${id} failed (${r.status}): ${errText}`);
   }
+
+  return r.json(); // ici on est sûr que le contenu est du JSON
+}
+
+  
 }

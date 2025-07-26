@@ -68,37 +68,63 @@ export class ClientService {
 }
 
 
-  async update(id, updates) {
-    try {
-      const [user, client] = await Promise.all([
-        this.api.patch(`utilisateurs/${id}`, null, {
-          nom: updates.nom,
-          prenom: updates.prenom,
-          telephone: updates.telephone,
-          email: updates.email
-        }),
-        this.api.patch(`clients/${id}`, null, {
-          solde: updates.solde,
-          creditMax: updates.creditMax
-        })
-      ]);
-      return { ...user, ...client };
-    } catch (error) {
-      console.error("Update client error:", error);
-      throw new Error("Échec de la mise à jour du client");
+async update(clientId, updates) {
+  try {
+    // 1. Récupérer le client existant
+    const client = await this.api.get(`clients/${clientId}`);
+    
+    if (!client?.id_utilisateur) {
+      throw new Error("Client introuvable ou ID utilisateur manquant");
     }
-  }
 
-  async delete(id) {
-    try {
-      return await this.api.patch(`clients/${id}`, null, { 
-        deletedAt: new Date().toISOString() 
-      });
-    } catch (error) {
-      console.error("Delete client error:", error);
-      throw new Error("Échec de la suppression du client");
+    // 2. Préparer les données de mise à jour
+    const userUpdate = {
+      nom: updates.nom,
+      prenom: updates.prenom,
+      telephone: updates.telephone,
+      email: updates.email
+    };
+
+    const clientUpdate = {
+      solde: parseFloat(updates.solde),
+      creditMax: parseFloat(updates.creditMax)
+    };
+
+    // 3. Envoyer les requêtes de mise à jour
+    const [updatedUser, updatedClient] = await Promise.all([
+      this.api.patch(`utilisateurs/${client.id_utilisateur}`, userUpdate),
+      this.api.patch(`clients/${clientId}`, clientUpdate)
+    ]);
+
+    // 4. Retourner les données combinées
+    return {
+      ...updatedClient,
+      utilisateur: updatedUser
+    };
+
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour:", error);
+    
+    // Gestion spécifique des erreurs JSON
+    if (error instanceof SyntaxError) {
+      throw new Error("Réponse invalide du serveur");
     }
+    
+    throw new Error(`Échec de la mise à jour: ${error.message}`);
   }
+}
+
+ async delete(id) {
+  try {
+    return await this.api.patch(`clients/${id}`, {
+      deletedAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error("Delete client error:", error);
+    throw new Error("Échec de la suppression du client");
+  }
+}
+
 
   async restore(id) {
     try {
@@ -124,11 +150,7 @@ export class ClientService {
   try {
     const allClients = await this.api.get("clients", { id_boutiquier });
     const clients = allClients.filter(c => c.id_boutiquier === id_boutiquier);
-        console.log(id_boutiquier);
-
     
-    
-
     const result = await Promise.all(
       clients.map(async (client) => {
         const utilisateur = await this.api.get(`utilisateurs/${client.id_utilisateur}`);

@@ -232,10 +232,10 @@
     },
     {
       "id": "d550",
-      "prenom": "zzzzzzzz",
+      "prenom": "modifier",
       "nom": "zzzzz",
       "email": "nnn@gmail.com",
-      "telephone": "66666",
+      "telephone": "666667777",
       "id_role": "3"
     }
   ],
@@ -325,6 +325,7 @@
       "id_utilisateur": "d550",
       "id_boutiquier": "543c",
       "solde": 777777,
+      "deleted": false,
       "creditMax": 6666
     }
   ],

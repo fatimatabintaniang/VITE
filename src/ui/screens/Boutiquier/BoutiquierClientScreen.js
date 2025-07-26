@@ -2,6 +2,8 @@
 import { ClientService } from "../../../services/clientService.js";
 import { Modal } from "../../components/Modal.js";
 import { validate } from "../../../utils/validation.js";
+import { confirm } from "../../components/Confirm.js";
+
 
 
 function clearFormErrors(form) {
@@ -164,7 +166,9 @@ async render() {
   this.root.querySelectorAll(".delete-client-btn").forEach(btn => {
     btn.onclick = async (e) => {
       const id = e.target.closest("tr").dataset.id;
-      if (confirm("Confirmer la suppression du client ?")) {
+        if (await confirm("Êtes-vous sûr de vouloir supprimer ce client ?")) {
+       console.log(id);
+       
         try {
           await this.clientService.delete(id);
           this.render();
@@ -184,7 +188,7 @@ async render() {
       let client;
       try {
         client = await this.clientService.getClientById(id);
-        console.log("Client à modifier:", client);
+        // console.log("Client à modifier:", client);
         
       } catch (error) {
         alert("Erreur chargement client : " + error.message);
@@ -237,6 +241,7 @@ async render() {
         };
 
         try {
+                        
           await this.clientService.update(id, clientData);
           modal.close();
           this.render();
