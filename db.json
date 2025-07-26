@@ -207,6 +207,36 @@
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png",
       "deleted": false
+    },
+    {
+      "id": "bf28",
+      "prenom": "new",
+      "nom": "new",
+      "email": "new@gmail.com",
+      "telephone": "777777777",
+      "solde": 44,
+      "creditMax": 600,
+      "id_boutiquier": "543c",
+      "id_role": 2
+    },
+    {
+      "id": "8f15",
+      "prenom": "new",
+      "nom": "ness",
+      "email": "new@gmail.com",
+      "telephone": "7777777",
+      "solde": 8888,
+      "creditMax": 8888,
+      "id_boutiquier": "543c",
+      "id_role": 2
+    },
+    {
+      "id": "d550",
+      "prenom": "zzzzzzzz",
+      "nom": "zzzzz",
+      "email": "nnn@gmail.com",
+      "telephone": "66666",
+      "id_role": "3"
     }
   ],
   "roles": [
@@ -277,6 +307,7 @@
     {
       "id": "1",
       "id_utilisateur": "3",
+      "id_boutiquier": "543c",
       "solde": 0,
       "creditMax": 500,
       "createdAt": "2025-01-01T00:00:00.000Z"
@@ -284,9 +315,17 @@
     {
       "id": "2",
       "id_utilisateur": "2",
+      "id_boutiquier": "1",
       "solde": 0,
       "creditMax": 500,
       "createdAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "5dcb",
+      "id_utilisateur": "d550",
+      "id_boutiquier": "543c",
+      "solde": 777777,
+      "creditMax": 6666
     }
   ],
   "dettes": [
