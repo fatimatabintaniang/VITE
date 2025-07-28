@@ -39,41 +39,69 @@ async render() {
   
 
   this.root.innerHTML = `
-    <div class="p-4">
-      <h1 class="text-xl font-bold mb-4">Mes clients</h1>
+    <div class="max-w-7xl mx-auto px-4 mt-12 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-4 md:mb-0">Gestion des Clients</h1>
+        
+        <button id="add-client-btn" class="flex items-center px-6 py-3 bg-blue-700 text-white font-medium rounded-lg shadow-md hover:from-blue-700 hover:to-blue-800 transition-all duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          Ajouter un client
+        </button>
+      </div>
 
-      <button id="add-client-btn" class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-        Ajouter un client
-      </button>
-
-      <table class="table-auto w-full border">
-        <thead>
-          <tr class="bg-gray-200">
-            <th class="p-2 border">Nom</th>
-            <th class="p-2 border">Email</th>
-            <th class="p-2 border">Solde</th>
-            <th class="p-2 border">Crédit Max</th>
-            <th class="p-2 border">Modifier</th>
-            <th class="p-2 border">Supprimer</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${clients.map((c) => `
-            <tr data-id="${c.id}">
-              <td class="p-2 border">${c.utilisateur.prenom} ${c.utilisateur.nom}</td>
-              <td class="p-2 border">${c.utilisateur.email}</td>
-              <td class="p-2 border">${c.solde}</td>
-              <td class="p-2 border">${c.creditMax}</td>
-              <td class="p-2 border">
-                <button class="edit-client-btn px-2 py-1 bg-yellow-500 text-white rounded">Modifier</button>
-              </td>
-              <td class="p-2 border">
-                <button class="delete-client-btn px-2 py-1 bg-red-600 text-white rounded">Supprimer</button>
-              </td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
+      <div class="bg-white shadow-xl rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Solde</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Crédit Max</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              ${clients.map((c, index) => `
+                <tr data-id="${c.id}" class="${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100 transition-colors">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">
+                        ${c.utilisateur.prenom.charAt(0)}${c.utilisateur.nom.charAt(0)}
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">${c.utilisateur.prenom} ${c.utilisateur.nom}</div>
+                        <div class="text-sm text-gray-500">${c.utilisateur.telephone || 'Non renseigné'}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${c.utilisateur.email}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${c.solde < 0 ? 'text-red-600' : 'text-green-600'}">${c.solde.toFixed(2)} €</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${c.creditMax.toFixed(2)} €</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div class="flex space-x-2">
+                      <button class="edit-client-btn px-3 py-1 bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200 transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                        </svg>
+                        Modifier
+                      </button>
+                      <button class="delete-client-btn px-3 py-1 bg-red-100 text-red-800 rounded-md hover:bg-red-200 transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                        Supprimer
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   `;
 
