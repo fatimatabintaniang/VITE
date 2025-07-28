@@ -35,7 +35,7 @@ export default class Navbar {
           <a href="#categories" class="mr-4 ">Catégories</a>
           <a href="#boutiquier-articles" class="mr-4 ">Articles</a>
           <a href="#boutiquier-clients" class="mr-4 ">Clients</a>
-          <a href="#dettes" class="mr-4 ">Dettes</a>
+          <a href="#boutiquier-dettes" class="mr-4 ">Dettes</a>
         `;
         break;
 

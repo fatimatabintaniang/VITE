@@ -335,7 +335,7 @@
       "createdAt": "2025-01-01T00:00:00.000Z"
     },
     {
-      "id": "2",
+      "id": "3",
       "id_utilisateur": "2",
       "id_boutiquier": "543c",
       "solde": 0,
@@ -357,7 +357,7 @@
     {
       "id": "1",
       "clientId": "3",
-      "boutiquierId": "1",
+      "boutiquierId": "543c",
       "articles": [
         {
           "id": "1",
@@ -375,6 +375,7 @@
     {
       "id": "1",
       "clientId": "3",
+      "boutiquierId": "543c",
       "articles": [
         {
           "id": "2",
@@ -390,6 +391,7 @@
     {
       "id": "1005",
       "clientId": "3",
+      "boutiquierId": "543c",
       "articles": [
         {
           "id": "2",
@@ -405,6 +407,7 @@
     {
       "id": "612f",
       "clientId": "undefined",
+      "boutiquierId": "",
       "articleId": "3",
       "articleLibelle": "Pantalon",
       "montant": 50,

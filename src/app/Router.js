@@ -14,6 +14,8 @@ import AdminBoutiquierDetailScreen from "../ui/screens/Admin/AdminBoutiquierDeta
 import BoutiquierCategorieScreen from "../ui/screens/Boutiquier/BoutiquierCategorieScreen.js";
 import BoutiquierArticleScreen from "../ui/screens/Boutiquier/BoutiquierArticleScreen.js";
 import BoutiquierClientScreen from "../ui/screens/Boutiquier/BoutiquierClientScreen.js";
+import BoutiquierDetteScreen from "../ui/screens/Boutiquier/BoutiquierDetteScreen.js";
+
 
 
 
@@ -124,6 +126,14 @@ route() {
         content.innerHTML = "<p>Accès non autorisé</p>";
       }
       break;
+      case "#boutiquier-dettes":
+        const userDette = this.authSvc.getCurrentUser();
+        if (userDette?.id_role === "2") {
+          new BoutiquierDetteScreen(content, userDette.id).render();
+        } else {
+          content.innerHTML = "<p>Accès non autorisé</p>";
+        }
+        break;
 
     default:
       content.innerHTML = "<h1>404 - Page non trouvée</h1>";
