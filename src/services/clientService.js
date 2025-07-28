@@ -114,16 +114,17 @@ async update(clientId, updates) {
   }
 }
 
- async delete(id) {
+async delete(id) {
   try {
     return await this.api.patch(`clients/${id}`, {
-      deletedAt: new Date().toISOString()
+      deleted: true
     });
   } catch (error) {
     console.error("Delete client error:", error);
     throw new Error("Échec de la suppression du client");
   }
 }
+
 
 
   async restore(id) {
@@ -146,11 +147,11 @@ async update(clientId, updates) {
     }
   }
 
- async listByBoutiquier(id_boutiquier, includeDeleted = false) {
+async listByBoutiquier(id_boutiquier) {
   try {
     const allClients = await this.api.get("clients", { id_boutiquier });
     const clients = allClients.filter(c => c.id_boutiquier === id_boutiquier);
-    
+
     const result = await Promise.all(
       clients.map(async (client) => {
         const utilisateur = await this.api.get(`utilisateurs/${client.id_utilisateur}`);
@@ -158,12 +159,15 @@ async update(clientId, updates) {
       })
     );
 
-    return result.filter(c => includeDeleted || !c.deletedAt);
+    // On affiche uniquement les clients non supprimés
+    return result.filter(c => !c.deleted);
   } catch (error) {
     console.error("List clients by boutiquier error:", error);
     throw new Error("Impossible de charger les clients du boutiquier");
   }
 }
+
+
 
 async getClientById(id) {
   if (!id) throw new Error("ID client requis");

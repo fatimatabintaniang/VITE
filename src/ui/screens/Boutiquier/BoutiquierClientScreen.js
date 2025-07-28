@@ -35,6 +35,8 @@ export default class BoutiquierClientScreen {
 
 async render() {
   const clients = await this.clientService.listByBoutiquier(this.idBoutiquier);
+  console.log(clients);
+  
 
   this.root.innerHTML = `
     <div class="p-4">

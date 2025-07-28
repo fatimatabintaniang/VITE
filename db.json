@@ -237,6 +237,18 @@
       "email": "nnn@gmail.com",
       "telephone": "666667777",
       "id_role": "3"
+    },
+    {
+      "id": "151d",
+      "nom": "test",
+      "prenom": "test",
+      "email": "test@gmail.com",
+      "telephone": "777777777",
+      "password": "test123",
+      "id_role": "2",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png",
+      "deleted": false,
+      "deletedAt": null
     }
   ],
   "roles": [
@@ -305,28 +317,40 @@
   ],
   "clients": [
     {
+      "id": "5dcb",
+      "id_utilisateur": "d550",
+      "id_boutiquier": "543c",
+      "solde": 777777,
+      "deleted": true,
+      "creditMax": 6666,
+      "deletedAt": "2025-07-26T16:41:22.878Z"
+    },
+    {
       "id": "1",
       "id_utilisateur": "3",
       "id_boutiquier": "543c",
       "solde": 0,
       "creditMax": 500,
+      "deleted": false,
       "createdAt": "2025-01-01T00:00:00.000Z"
     },
     {
       "id": "2",
       "id_utilisateur": "2",
-      "id_boutiquier": "1",
+      "id_boutiquier": "543c",
       "solde": 0,
       "creditMax": 500,
-      "createdAt": "2025-01-01T00:00:00.000Z"
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "deleted": false
     },
     {
-      "id": "5dcb",
-      "id_utilisateur": "d550",
-      "id_boutiquier": "543c",
+      "id": "5dcb9",
+      "id_utilisateur": "151d",
+      "id_boutiquier": "1",
       "solde": 777777,
       "deleted": false,
-      "creditMax": 6666
+      "creditMax": 6666,
+      "deletedAt": "2025-07-26T16:41:22.878Z"
     }
   ],
   "dettes": [
