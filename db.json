@@ -29,6 +29,18 @@
       "libelle": "Mode",
       "boutiquier_id": "d016",
       "deleted": true
+    },
+    {
+      "id": "fdfc",
+      "libelle": "maCat",
+      "deleted": false,
+      "boutiquier_id": "543c"
+    },
+    {
+      "id": "1f30",
+      "libelle": "maCat33",
+      "deleted": false,
+      "boutiquier_id": "543c"
     }
   ],
   "articles": [
@@ -118,6 +130,25 @@
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753441575/vplr1o88vkdyr51jv5sb.jpg",
       "id_boutiquier": "543c",
       "deleted": false
+    },
+    {
+      "id": "0cf9",
+      "libelle": "new",
+      "prix": 34,
+      "description": "PPPPP",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753444384/lf4y0ndqmcnfbuzao8fi.jpg",
+      "id_boutiquier": "2",
+      "deleted": false
+    },
+    {
+      "id": "8030",
+      "libelle": "donc",
+      "prix": 44,
+      "description": "pooooooo",
+      "categorie_id": "fdfc",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753447162/h4ps3umxtp3j5vsbevhk.jpg",
+      "id_boutiquier": "543c",
+      "deleted": false
     }
   ],
   "utilisateurs": [
@@ -133,7 +164,7 @@
     },
     {
       "id": "2",
-      "nom": "diopppp",
+      "nom": "diopz",
       "prenom": "boutiquier",
       "telephone": "783300065",
       "email": "boutiquier@gmail.com",
@@ -176,6 +207,48 @@
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png",
       "deleted": false
+    },
+    {
+      "id": "bf28",
+      "prenom": "new",
+      "nom": "new",
+      "email": "new@gmail.com",
+      "telephone": "777777777",
+      "solde": 44,
+      "creditMax": 600,
+      "id_boutiquier": "543c",
+      "id_role": 2
+    },
+    {
+      "id": "8f15",
+      "prenom": "new",
+      "nom": "ness",
+      "email": "new@gmail.com",
+      "telephone": "7777777",
+      "solde": 8888,
+      "creditMax": 8888,
+      "id_boutiquier": "543c",
+      "id_role": 2
+    },
+    {
+      "id": "d550",
+      "prenom": "modifier",
+      "nom": "zzzzz",
+      "email": "nnn@gmail.com",
+      "telephone": "666667777",
+      "id_role": "3"
+    },
+    {
+      "id": "151d",
+      "nom": "test",
+      "prenom": "test",
+      "email": "test@gmail.com",
+      "telephone": "777777777",
+      "password": "test123",
+      "id_role": "2",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png",
+      "deleted": false,
+      "deletedAt": null
     }
   ],
   "roles": [
@@ -244,25 +317,47 @@
   ],
   "clients": [
     {
+      "id": "5dcb",
+      "id_utilisateur": "d550",
+      "id_boutiquier": "543c",
+      "solde": 777777,
+      "deleted": true,
+      "creditMax": 6666,
+      "deletedAt": "2025-07-26T16:41:22.878Z"
+    },
+    {
       "id": "1",
       "id_utilisateur": "3",
+      "id_boutiquier": "543c",
       "solde": 0,
       "creditMax": 500,
+      "deleted": false,
       "createdAt": "2025-01-01T00:00:00.000Z"
     },
     {
-      "id": "2",
+      "id": "3",
       "id_utilisateur": "2",
+      "id_boutiquier": "543c",
       "solde": 0,
       "creditMax": 500,
-      "createdAt": "2025-01-01T00:00:00.000Z"
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "deleted": false
+    },
+    {
+      "id": "5dcb9",
+      "id_utilisateur": "151d",
+      "id_boutiquier": "1",
+      "solde": 777777,
+      "deleted": false,
+      "creditMax": 6666,
+      "deletedAt": "2025-07-26T16:41:22.878Z"
     }
   ],
   "dettes": [
     {
       "id": "1",
       "clientId": "3",
-      "boutiquierId": "1",
+      "boutiquierId": "543c",
       "articles": [
         {
           "id": "1",
@@ -280,6 +375,7 @@
     {
       "id": "1",
       "clientId": "3",
+      "boutiquierId": "543c",
       "articles": [
         {
           "id": "2",
@@ -295,6 +391,7 @@
     {
       "id": "1005",
       "clientId": "3",
+      "boutiquierId": "543c",
       "articles": [
         {
           "id": "2",
@@ -310,6 +407,7 @@
     {
       "id": "612f",
       "clientId": "undefined",
+      "boutiquierId": "",
       "articleId": "3",
       "articleLibelle": "Pantalon",
       "montant": 50,

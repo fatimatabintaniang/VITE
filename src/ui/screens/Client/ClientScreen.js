@@ -35,7 +35,7 @@ export default class ClientScreen {
     }
 
     this.root.innerHTML = `
-      <div class="container mx-auto p-6 max-w-6xl">
+      <div class="container mx-auto p-6 max-w-6xl mt-20">
         <div class="flex justify-between items-center mb-8">
           <h1 class="text-3xl font-light text-slate-700">Bonjour, ${this.state.user?.prenom || ''}</h1>
           <div class="flex gap-4">

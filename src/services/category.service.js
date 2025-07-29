@@ -53,4 +53,18 @@ export class CategoryService {
     const data = await this.api.get(id);
     return Category.fromDto(data);
   }
+async listAll(boutiquier_id = null) {
+  const params = {
+    _limit: 1000, // ou une valeur suffisamment grande
+    deleted: false,
+    actif: true,
+  };
+  if (boutiquier_id) {
+    params.boutiquier_id = boutiquier_id;
+  }
+  const { data } = await this.api.get('', params);
+  return data.map(Category.fromDto);
+}
+
+
 }
