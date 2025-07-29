@@ -249,6 +249,14 @@
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png",
       "deleted": false,
       "deletedAt": null
+    },
+    {
+      "id": "a190",
+      "prenom": "ll",
+      "nom": "mmmm",
+      "email": "nn@gmail.com",
+      "telephone": "666666666",
+      "id_role": "3"
     }
   ],
   "roles": [
@@ -351,6 +359,13 @@
       "deleted": false,
       "creditMax": 6666,
       "deletedAt": "2025-07-26T16:41:22.878Z"
+    },
+    {
+      "id": "dacc",
+      "id_utilisateur": "a190",
+      "id_boutiquier": "543c",
+      "solde": 88888,
+      "creditMax": 4444
     }
   ],
   "dettes": [
