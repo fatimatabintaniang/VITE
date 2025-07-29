@@ -1,4 +1,3 @@
-
 export function validate(data, rules) {
   const errors = {};
 
@@ -14,14 +13,14 @@ export function validate(data, rules) {
         }
       }
 
-      if (rule === "number") {
-  if (value === "" || isNaN(parseFloat(value))) {
-    errors[field] = "Ce champ doit être un nombre";
-    break;
-  }
-}
+      else if (rule === "number") {
+        if (value === "" || isNaN(parseFloat(value))) {
+          errors[field] = "Ce champ doit être un nombre";
+          break;
+        }
+      }
 
-      if (rule === "email") {
+      else if (rule === "email") {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (value && !emailRegex.test(value)) {
           errors[field] = "Email invalide";
@@ -29,7 +28,7 @@ export function validate(data, rules) {
         }
       }
 
-      if (rule.startsWith("min:")) {
+      else if (rule.startsWith("min:")) {
         const min = parseInt(rule.split(":")[1]);
         if (value && value.length < min) {
           errors[field] = `Minimum ${min} caractères`;
@@ -37,14 +36,7 @@ export function validate(data, rules) {
         }
       }
 
-      if (rule === "number") {
-        if (value === "" || isNaN(value)) {
-          errors[field] = "Ce champ doit être un nombre";
-          break;
-        }
-      }
-
-      if (rule === "phone") {
+      else if (rule === "phone") {
         const phoneRegex = /^\d{6,}$/;
         if (value && !phoneRegex.test(value)) {
           errors[field] = "Numéro invalide (min 6 chiffres)";

@@ -83,4 +83,78 @@ export class DetteService {
       return [];
     }
   }
+  // Lister toutes les demandes de dettes des clients du boutiquier
+async getDemandesByBoutiquier(id_boutiquier) {
+  try {
+    const clients = await this.api.get("clients", { id_boutiquier });
+    const clientIds = clients.map(c => c.id);
+
+    const allDemandes = await this.api.get("demandeDettes");
+    return allDemandes
+      .filter(d => clientIds.includes(d.clientId))
+      .map(d => ({
+        ...d,
+        client: clients.find(c => c.id === d.clientId)
+      }));
+  } catch (error) {
+    console.error("Erreur lors du chargement des demandes du boutiquier:", error);
+    return [];
+  }
+}
+async getByBoutiquierId(boutiquierId) {
+  try {
+    const [dettes, clients] = await Promise.all([
+      this.api.get("demandeDettes"),
+      this.api.get("clients")
+    ]);
+
+    const dettesFiltrees = dettes.filter((d) => d.boutiquierId === boutiquierId);
+
+    const result = await Promise.all(
+      dettesFiltrees.map(async (dette) => {
+        const client = clients.find((c) => c.id === dette.clientId);
+
+        let utilisateur = null;
+        if (client && client.id_utilisateur) {
+          try {
+            utilisateur = await this.api.get(`utilisateurs/${client.id_utilisateur}`);
+          } catch (e) {
+            console.warn(`Utilisateur introuvable pour client ${client.id}`);
+          }
+        }
+
+        return {
+          ...dette,
+          client: {
+            ...client,
+            utilisateur
+          }
+        };
+      })
+    );
+
+    return result;
+  } catch (error) {
+    console.error("Erreur getByBoutiquierId:", error);
+    return [];
+  }
+}
+
+
+
+
+// Refuser une demande de dette
+async refuserDemande(demandeId, motif = "") {
+  try {
+    return await this.api.patch(`demandeDettes/${demandeId}`, {
+      statut: "refused",
+      motifRefus: motif,
+      updatedAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error("Erreur lors du refus de la demande:", error);
+    throw error;
+  }
+}
+
 }
