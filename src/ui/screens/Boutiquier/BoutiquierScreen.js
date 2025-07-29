@@ -1,5 +1,7 @@
 import { utilisateurService } from "../../../services/utilisateurService.js";
 import { roleService } from "../../../services/roleService.js";
+import { boutiquierService } from "../../../services/boutiquierService.js";
+
 
 export default class AdminScreen {
   constructor(root) {
@@ -20,7 +22,7 @@ export default class AdminScreen {
         <div class=" ">
           <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between">
-              <h1 class="text-3xl font-bold text-black">Tableau de Bord Administrateur</h1>
+              <h1 class="text-3xl font-bold text-black">Tableau de Bord Boutiquiers</h1>
               <div class="flex items-center space-x-4">
                 <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-500 bg-opacity-20 text-sm font-medium text-green-800">
                   <span class="w-2 h-2 mr-2 rounded-full bg-green-800 "></span>
@@ -45,7 +47,7 @@ export default class AdminScreen {
                     </svg>
                   </div>
                   <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Utilisateurs</p>
+                    <p class="text-sm font-medium text-gray-500">Catégories</p>
                     <p id="nbUsers" class="text-2xl font-semibold text-gray-900">...</p>
                   </div>
                 </div>
@@ -62,7 +64,7 @@ export default class AdminScreen {
                     </svg>
                   </div>
                   <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Rôles</p>
+                    <p class="text-sm font-medium text-gray-500">Articles</p>
                     <p id="nbRoles" class="text-2xl font-semibold text-gray-900">...</p>
                   </div>
                 </div>
@@ -79,7 +81,7 @@ export default class AdminScreen {
                     </svg>
                   </div>
                   <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Permissions</p>
+                    <p class="text-sm font-medium text-gray-500">Clients</p>
                     <p class="text-2xl font-semibold text-gray-900">06</p>
                   </div>
                 </div>
@@ -114,7 +116,7 @@ export default class AdminScreen {
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                     </svg>
-                    Activité Récente
+                   Dettes
                   </h2>
                 </div>
                 <div class="overflow-x-auto">
