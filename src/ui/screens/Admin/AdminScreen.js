@@ -134,8 +134,8 @@ export default class AdminScreen {
                               <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                             </div>
                             <div class="ml-4">
-                              <div class="text-sm font-medium text-gray-900">Jean Dupont</div>
-                              <div class="text-sm text-gray-500">admin@example.com</div>
+                              <div class="text-sm font-medium text-gray-900">Fatimata Binta</div>
+                              <div class="text-sm text-gray-500">niang@gmail.com</div>
                             </div>
                           </div>
                         </td>
@@ -153,8 +153,8 @@ export default class AdminScreen {
                               <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                             </div>
                             <div class="ml-4">
-                              <div class="text-sm font-medium text-gray-900">Marie Martin</div>
-                              <div class="text-sm text-gray-500">editor@example.com</div>
+                              <div class="text-sm font-medium text-gray-900">Mamy Diallo</div>
+                              <div class="text-sm text-gray-500">mamy@gmail.com</div>
                             </div>
                           </div>
                         </td>
