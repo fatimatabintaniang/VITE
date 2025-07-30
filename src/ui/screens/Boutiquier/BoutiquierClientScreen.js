@@ -139,17 +139,19 @@ async render() {
     const form = document.createElement("form");
     form.className = "space-y-4";
 
-    form.innerHTML = `
-      ${createField("prenom", "Prénom")}
-      ${createField("nom", "Nom")}
-      ${createField("email", "Email", "email")}
-      ${createField("telephone", "Téléphone")}
-      ${createField("solde", "Solde", "number")}
-      ${createField("creditMax", "Crédit Max", "number")}
-      <div class="text-right">
-        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Enregistrer</button>
-      </div>
-    `;
+      form.innerHTML = `
+        ${createField("prenom", "Prénom")}
+        ${createField("nom", "Nom")}
+        ${createField("email", "Email", "email")}
+        ${createField("telephone", "Téléphone")}
+        ${createField("password", "Mot de passe", "password")}
+        ${createField("solde", "Solde", "number")}
+        ${createField("creditMax", "Crédit Max", "number")}
+        <div class="text-right">
+          <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Enregistrer</button>
+        </div>
+      `;
+
 
     const modal = new Modal("Ajouter un client", form);
     modal.open();
@@ -165,9 +167,11 @@ async render() {
         nom: ["required"],
         email: ["required", "email"],
         telephone: ["required", "phone"],
+        password: ["required"], // ajout ici
         solde: ["required", "number"],
         creditMax: ["required", "number"],
       };
+
 
       const errors = validate(formData, rules);
       if (Object.keys(errors).length > 0) {
@@ -181,6 +185,9 @@ async render() {
         creditMax: parseFloat(formData.creditMax),
         id_boutiquier: this.idBoutiquier,
       };
+     
+      
+
 
       try {
         await this.clientService.create(clientData);

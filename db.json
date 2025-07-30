@@ -41,6 +41,18 @@
       "libelle": "maCat33",
       "deleted": false,
       "boutiquier_id": "543c"
+    },
+    {
+      "id": "9884",
+      "libelle": "categorie_1",
+      "deleted": false,
+      "boutiquier_id": "8297"
+    },
+    {
+      "id": "936b",
+      "libelle": "categorie_2",
+      "deleted": false,
+      "boutiquier_id": "8297"
     }
   ],
   "articles": [
@@ -133,10 +145,10 @@
     },
     {
       "id": "0cf9",
-      "libelle": "new",
+      "libelle": "newa",
       "prix": 34,
       "description": "PPPPP",
-      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753444384/lf4y0ndqmcnfbuzao8fi.jpg",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753876971/rr1mgworukzph2cmmhft.jpg",
       "id_boutiquier": "2",
       "deleted": false
     },
@@ -148,6 +160,36 @@
       "categorie_id": "fdfc",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753447162/h4ps3umxtp3j5vsbevhk.jpg",
       "id_boutiquier": "543c",
+      "deleted": false
+    },
+    {
+      "id": "1927",
+      "libelle": "article 1",
+      "prix": 45,
+      "description": "popppppppppp",
+      "categorie_id": "9884",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753794808/rsyzid9xvgbil2sl6wzu.jpg",
+      "id_boutiquier": "8297",
+      "deleted": false
+    },
+    {
+      "id": "6fce",
+      "libelle": "article 1",
+      "prix": 33,
+      "description": "ppppppppppppp",
+      "categorie_id": "9884",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753795028/dtvkug7cso4uub53zofn.jpg",
+      "id_boutiquier": "8297",
+      "deleted": true
+    },
+    {
+      "id": "3ad1",
+      "libelle": "monNew",
+      "prix": 23,
+      "description": "pppppppppppppp",
+      "categorie_id": "2",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753909289/mzoap7ukbwvyvnapozej.png",
+      "id_boutiquier": "2",
       "deleted": false
     }
   ],
@@ -194,7 +236,7 @@
       "password": "ina@gmail.com",
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753358370/impjqb0d74s43jqepdnk.jpg",
-      "deleted": false,
+      "deleted": "false",
       "deletedAt": null
     },
     {
@@ -256,6 +298,69 @@
       "nom": "mmmm",
       "email": "nn@gmail.com",
       "telephone": "666666666",
+      "id_role": "3"
+    },
+    {
+      "id": "beb9",
+      "nom": "test",
+      "prenom": "test",
+      "email": "test@gmail.com",
+      "telephone": "7777777707777",
+      "password": "testtesttest",
+      "id_role": "2",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753793792/ptp0raymh78mbkurm3me.jpg"
+    },
+    {
+      "id": "8297",
+      "nom": "niang",
+      "prenom": "fatima",
+      "email": "tyma@gmail.com",
+      "telephone": "770020404",
+      "password": "testtesttest",
+      "id_role": "2",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753793997/knyejvzb3cscfxzrant7.jpg",
+      "deleted": "false"
+    },
+    {
+      "id": "dde5",
+      "prenom": "client ",
+      "nom": "1",
+      "email": "client1@gmail.com",
+      "telephone": "777777777",
+      "id_role": "3"
+    },
+    {
+      "id": "cc34",
+      "prenom": "nnnn",
+      "nom": "pppp",
+      "email": "pp@gmail.com",
+      "telephone": "55555555",
+      "id_role": "3"
+    },
+    {
+      "id": "211e",
+      "prenom": "hjj",
+      "nom": "POP",
+      "email": "ppmm@gmail.com",
+      "telephone": "999999999",
+      "id_role": "3"
+    },
+    {
+      "id": "212f",
+      "prenom": "zyhjsfb",
+      "nom": "pppp",
+      "email": "pp@gmail.com",
+      "telephone": "5555555",
+      "password": "PPP",
+      "id_role": "3"
+    },
+    {
+      "id": "ed7a",
+      "prenom": "zyfbjh",
+      "nom": "modif",
+      "email": "pp@gmail.com",
+      "telephone": "76666666",
+      "password": "PPP",
       "id_role": "3"
     }
   ],
@@ -321,6 +426,14 @@
         "latitude": 50,
         "longitude": 80
       }
+    },
+    {
+      "id": "260a",
+      "id_utilisateur": "8297",
+      "localisation": {
+        "latitude": 45,
+        "longitude": 80
+      }
     }
   ],
   "clients": [
@@ -366,6 +479,34 @@
       "id_boutiquier": "543c",
       "solde": 88888,
       "creditMax": 4444
+    },
+    {
+      "id": "8225",
+      "id_utilisateur": "98aa",
+      "id_boutiquier": "8297",
+      "solde": 45,
+      "creditMax": 43
+    },
+    {
+      "id": "c02d",
+      "id_utilisateur": "cc34",
+      "id_boutiquier": "2",
+      "solde": 65,
+      "creditMax": 65
+    },
+    {
+      "id": "b9ef",
+      "id_utilisateur": "211e",
+      "id_boutiquier": "2",
+      "solde": 444,
+      "creditMax": 666
+    },
+    {
+      "id": "65b5",
+      "id_utilisateur": "ed7a",
+      "id_boutiquier": "2",
+      "solde": 90,
+      "creditMax": 87
     }
   ],
   "dettes": [
@@ -416,8 +557,9 @@
       ],
       "montant": 20,
       "raison": "je voudrais avoir cette article",
-      "statut": "pending",
-      "createdAt": "2025-07-20T19:13:58.711Z"
+      "statut": "approved",
+      "createdAt": "2025-07-20T19:13:58.711Z",
+      "updatedAt": "2025-07-29T13:54:14.588Z"
     },
     {
       "id": "612f",

@@ -44,11 +44,14 @@ export class ClientService {
 
   try {
     // 1. Créer l'utilisateur
+    //  console.log("Client à créer:", clientData);
+    //   alert("Client à créer: " + JSON.stringify(clientData));
     const { id: utilisateurId } = await this.api.post("utilisateurs", {
       prenom: clientData.prenom,
       nom: clientData.nom,
       email: clientData.email,
       telephone: clientData.telephone,
+      password: clientData.password, // <-- Utilisation du mot de passe
       id_role: "3"
     });
 
