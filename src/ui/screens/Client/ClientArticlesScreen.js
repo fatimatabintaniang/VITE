@@ -3,6 +3,7 @@ import { CategoryService } from "../../../services/categoriService.js";
 import { DetteService } from "../../../services/detteService.js";
 import { Modal } from "../../components/Modal.js";
 import { validate } from "../../../utils/validation.js";
+
 export default class ClientArticlesScreen {
   constructor(root) {
     this.root = root;
@@ -13,10 +14,16 @@ export default class ClientArticlesScreen {
       articles: [],
       categories: [],
       selectedArticle: null,
+      user: JSON.parse(localStorage.getItem("user")),
+      boutiquierId: null
     };
   }
 
   async render() {
+    // Récupérer l'ID du boutiquier depuis l'URL ou le localStorage
+    const params = new URLSearchParams(window.location.hash.split('?')[1]);
+    this.state.boutiquierId = params.get('boutiquierId') || this.state.user?.boutiquierId;
+    
     await this._loadData();
 
     this.root.innerHTML = `
@@ -38,12 +45,12 @@ export default class ClientArticlesScreen {
             `
               )
               .join("")}
-              
           </select>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           ${this.state.articles
+            .filter(article => article.boutiquierId === this.state.boutiquierId) // Filtrage par boutiquier
             .map(
               (article) => `
             <div class="bg-white rounded-lg shadow-md overflow-hidden">
@@ -56,7 +63,7 @@ export default class ClientArticlesScreen {
               </div>
               <div class="p-4">
                 <h3 class="font-bold text-lg">${article.libelle}</h3>
-                <p class="text-gray-500 text-sm">${this._getCategoryName(
+                <p class="text-gray-500 text-sm">${this.getCategoryName(
                   article.categoryId
                 )}</p>
                 <p class="font-bold mt-2">${article.prix.toFixed(2)} €</p>
@@ -101,7 +108,11 @@ export default class ClientArticlesScreen {
         ? categoriesRes
         : categoriesRes?.data || [];
 
-      this.state.articles = articles.filter((a) => !a?.deleted);
+      // Filtrer les articles par boutiquierId
+      this.state.articles = articles.filter(a => 
+        !a?.deleted && a.boutiquierId === this.state.boutiquierId
+      );
+      
       this.state.categories = categories.filter((c) => !c?.deleted);
     } catch (error) {
       console.error("Erreur de chargement:", error);
@@ -113,15 +124,15 @@ export default class ClientArticlesScreen {
         <p class="text-sm">${error.message}</p>
       </div>
     `;
-    }
+  }
   }
 
-  _getCategoryName(categoryId) {
+  getCategoryName(categoryId) {
     const category = this.state.categories.find((c) => c.id === categoryId);
     return category ? category.libelle : "Inconnue";
   }
 
- _renderRequestModal(article) {
+_renderRequestModal(article) {
   const form = document.createElement("form");
   form.className = "space-y-4";
   form.innerHTML = `
@@ -275,7 +286,7 @@ export default class ClientArticlesScreen {
   }
 
   _showArticleDetail(article) {
-    const categoryName = this._getCategoryName(article.categoryId);
+    const categoryName = this.getCategoryName(article.categoryId);
     const content = document.createElement("div");
     content.className = "space-y-4";
     content.innerHTML = `

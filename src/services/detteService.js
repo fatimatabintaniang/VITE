@@ -2,7 +2,7 @@ import { ApiClient } from '../data/ApiClient.js';
 
 export class DetteService {
   constructor() {
-    this.api = new ApiClient("http://localhost:3000");
+    this.api = new ApiClient("http://localhost:3001");
   }
 
   async getByClientId(clientId) {

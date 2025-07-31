@@ -3,7 +3,7 @@ import { Article } from "../data/Article.js";
 
 export class ArticleService {
   constructor() {
-    this.api = new ApiClient("http://localhost:3000");
+    this.api = new ApiClient("http://localhost:3001");
   }
 
   async list(page = 1, limit = 1000, searchQuery = '') {
@@ -70,4 +70,5 @@ export class ArticleService {
       return null;
     }
   }
+  
 }

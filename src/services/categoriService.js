@@ -2,7 +2,7 @@ import { ApiClient } from '../data/ApiClient.js';
 
 export class CategoryService {
   constructor() {
-    this.api = new ApiClient("http://localhost:3000/categories");
+    this.api = new ApiClient("http://localhost:3001");
   }
 
   /**
@@ -12,7 +12,7 @@ export class CategoryService {
    */
   async getAllCategories(includeDeleted = false) {
     try {
-      const response = await this.api.get("");
+      const response = await this.api.get("categories", { deleted: includeDeleted });
       let categories = Array.isArray(response) ? response : response?.data || [];
       
       if (!includeDeleted) {

@@ -1,6 +1,6 @@
 export class ApiClient {
-  constructor(baseUrl) {
-    this.baseUrl = baseUrl;
+  constructor() {
+    this.baseUrl = "http://localhost:3001"; // Assurez-vous que l'URL correspond à votre API
   }
 
   async get(endpoint) {
