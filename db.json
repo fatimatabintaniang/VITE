@@ -164,7 +164,7 @@
       "categorie_id": "321c",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753950752/dtjsulpzhlzzlc8ju6wy.jpg",
       "id_boutiquier": "a242",
-      "deleted": true
+      "deleted": false
     },
     {
       "id": "3ad1",
@@ -286,6 +286,15 @@
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753950585/hy6acksrcpb8btzrjvuh.jpg",
       "deleted": false
+    },
+    {
+      "id": "b87c",
+      "prenom": "Fatimata Binta",
+      "nom": "Nianggggg",
+      "email": "marr@gmail.com",
+      "telephone": "777777777",
+      "password": "admin123",
+      "id_role": "3"
     }
   ],
   "roles": [
@@ -396,6 +405,14 @@
       "deleted": false,
       "creditMax": 6666,
       "deletedAt": "2025-07-26T16:41:22.878Z"
+    },
+    {
+      "id": "afaf",
+      "id_utilisateur": "b87c",
+      "id_boutiquier": "a242",
+      "solde": 6000,
+      "creditMax": 3546,
+      "deleted": false
     }
   ],
   "dettes": [
