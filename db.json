@@ -41,6 +41,12 @@
       "libelle": "maCat33",
       "deleted": false,
       "boutiquier_id": "543c"
+    },
+    {
+      "id": "df84",
+      "libelle": "smartphoneeee",
+      "deleted": false,
+      "boutiquier_id": "151d"
     }
   ],
   "articles": [
@@ -149,6 +155,16 @@
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753447162/h4ps3umxtp3j5vsbevhk.jpg",
       "id_boutiquier": "543c",
       "deleted": false
+    },
+    {
+      "id": "ae1c",
+      "libelle": "iphone 16",
+      "prix": 300000,
+      "description": "awyugoijp",
+      "categorie_id": "df84",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753778806/nizgwbxhtsgux6aq6cyv.webp",
+      "id_boutiquier": "151d",
+      "deleted": false
     }
   ],
   "utilisateurs": [
@@ -164,7 +180,7 @@
     },
     {
       "id": "2",
-      "nom": "diopz",
+      "nom": "diop",
       "prenom": "boutiquier",
       "telephone": "783300065",
       "email": "boutiquier@gmail.com",
@@ -206,7 +222,7 @@
       "password": "1234567",
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png",
-      "deleted": false
+      "deleted": "true"
     },
     {
       "id": "bf28",
@@ -247,8 +263,38 @@
       "password": "test123",
       "id_role": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753365231/enzazbbp6zmnhc9j0ufo.png",
-      "deleted": false,
+      "deleted": "true",
       "deletedAt": null
+    },
+    {
+      "id": "4771",
+      "prenom": "Fatimata Binta",
+      "nom": "Niang",
+      "email": "diop@gmail.com",
+      "telephone": "764533345",
+      "id_role": "3"
+    },
+    {
+      "id": "07e4",
+      "nom": "Niang",
+      "prenom": "Fatimata Binta",
+      "email": "new@gmail.com",
+      "telephone": "767298266",
+      "password": "boutique123",
+      "id_role": "2",
+      "image": null,
+      "deleted": "true"
+    },
+    {
+      "id": "9462",
+      "nom": "Niang",
+      "prenom": "Fatimata Binta",
+      "email": "boutiquier@gmail.com",
+      "telephone": "767298266",
+      "password": "boutique123",
+      "id_role": "2",
+      "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753908119/ohcubigjx1ewitcolh72.jpg",
+      "deleted": false
     }
   ],
   "roles": [
@@ -313,6 +359,22 @@
         "latitude": 50,
         "longitude": 80
       }
+    },
+    {
+      "id": "6edd",
+      "id_utilisateur": "07e4",
+      "localisation": {
+        "latitude": 14.7511,
+        "longitude": -17.4714
+      }
+    },
+    {
+      "id": "347e",
+      "id_utilisateur": "9462",
+      "localisation": {
+        "latitude": 14.7511,
+        "longitude": -17.4714
+      }
     }
   ],
   "clients": [
@@ -351,6 +413,13 @@
       "deleted": false,
       "creditMax": 6666,
       "deletedAt": "2025-07-26T16:41:22.878Z"
+    },
+    {
+      "id": "70cd",
+      "id_utilisateur": "4771",
+      "id_boutiquier": "151d",
+      "solde": 5000,
+      "creditMax": 4000
     }
   ],
   "dettes": [

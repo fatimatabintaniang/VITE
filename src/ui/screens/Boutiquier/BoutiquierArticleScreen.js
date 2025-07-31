@@ -1,5 +1,5 @@
 import { BoutiquierArticleService } from "../../../services/BoutiquierArticle.service.js";
-import { Modal } from "../../components/Modal.js"; // adapte le chemin si besoin
+import { Modal } from "../../components/Modal.js"; 
 import { confirm } from "../../components/Confirm.js";
 import { validate } from "../../../utils/validation.js";
 import { CloudinaryClient } from "../../../services/CloudinaryClient.js";
@@ -258,7 +258,7 @@ const { data: categories } = await this.categoryService.list(1, 1000, this.idBou
     try {
       await this.articleService.create(newArticle);
       modal.close();
-      this.render(); // Actualise la liste des articles
+      this.render(); 
     } catch (error) {
       alert("Erreur lors de l'ajout : " + error.message);
     } finally {

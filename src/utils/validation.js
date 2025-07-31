@@ -37,9 +37,9 @@ export function validate(data, rules) {
       }
 
       else if (rule === "phone") {
-        const phoneRegex = /^\d{6,}$/;
+        const phoneRegex = /^\d{9,}$/;
         if (value && !phoneRegex.test(value)) {
-          errors[field] = "Numéro invalide (min 6 chiffres)";
+          errors[field] = "Numéro invalide (min 9 chiffres)";
           break;
         }
       }

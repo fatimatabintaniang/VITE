@@ -218,27 +218,5 @@ async getBoutiquierById(id) {
   }
 }
 
-//  async restore(id) {
-//   try {
-//     // 1. Restauration de l'utilisateur
-//     await this.api.patch(`utilisateurs/${id}`, {
-//       deleted: "false",
-//       deletedAt: null
-//     });
 
-//     // 2. Optionnel : Restaurer les produits associés
-//     // await this.api.patch(`produits?boutiquier_id=${id}`, {
-//     //   deleted: "false"
-//     // });
-
-//     return { success: true, message: "Boutiquier restauré avec succès" };
-//   } catch (error) {
-//     console.error("Erreur restore:", {
-//       id: id,
-//       error: error.message,
-//       stack: error.stack
-//     });
-//     throw new Error("Échec de la restauration du boutiquier");
-//   }
-// }
 }

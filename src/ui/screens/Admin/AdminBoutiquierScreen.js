@@ -465,10 +465,18 @@ export default class AdminBoutiquierScreen {
         }
       };
 
-      // Ajout conditionnel des champs
-      if (formData.get("password")) {
-        updatedData.password = formData.get("password");
-      }
+      // Validation
+      const dataToValidate = {
+        nom: updatedData.nom,
+        prenom: updatedData.prenom,
+        email: updatedData.email,
+        password: formData.get("password"),
+        telephone: updatedData.telephone,
+        latitude: updatedData.localisation.latitude,
+        longitude: updatedData.localisation.longitude,
+      };
+
+
 
       try {
         if (fileInput) {
