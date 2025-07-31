@@ -20,14 +20,14 @@ export class BoutiquierArticleService {
     return data;
   }
 async findByLibelleAndBoutiquier(libelle, idBoutiquier) {
-  const allArticles = await this.list(); // ou this.repo.list() si tu l’utilises
+  const allArticles = await this.listByBoutiquier(idBoutiquier); // ✅ ici
   return allArticles.find(
     (a) =>
       a.libelle.toLowerCase().trim() === libelle.toLowerCase().trim() &&
-      a.id_boutiquier === idBoutiquier &&
       !a.deleted
   );
 }
+
 async softDelete(id) {
   return await this.api.patch(`articles`, id, { deleted: true });
 }
@@ -36,6 +36,11 @@ async find(id) {
   const { data } = await this.api.get(`articles/${id}`);
   return data;
 }
+async update(id, updatedArticle) {
+  const { data } = await this.api.put("articles", id, updatedArticle);
+  return data;
+}
+
 
 
 }
