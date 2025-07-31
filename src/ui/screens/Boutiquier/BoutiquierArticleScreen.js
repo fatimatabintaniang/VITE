@@ -271,15 +271,24 @@ const { data: categories } = await this.categoryService.list(1, 1000, this.idBou
 
 showDetails(article) {
   const detailContainer = document.createElement("div");
+
+  const isDeleted = article.deleted === true;
+
   detailContainer.innerHTML = `
     <div class="space-y-4">
       <img src="${article.image || 'https://via.placeholder.com/400x300'}" alt="${article.libelle}" class="w-full h-60 object-cover rounded-md" />
       <h2 class="text-xl font-bold">${article.libelle}</h2>
       <p><strong>Prix :</strong> ${article.prix} FCFA</p>
       <p><strong>Description :</strong><br>${article.description || "Aucune"}</p>
+
       <div class="flex justify-end gap-4 mt-4">
-        <button class="btn-edit px-4 py-2 bg-indigo-600 text-white rounded">Modifier</button>
-        <button class="btn-delete px-4 py-2 bg-red-600 text-white rounded">Supprimer</button>
+        ${isDeleted
+          ? `<button class="btn-restore px-4 py-2 bg-green-600 text-white rounded">Restaurer</button>`
+          : `
+            <button class="btn-edit px-4 py-2 bg-indigo-600 text-white rounded">Modifier</button>
+            <button class="btn-delete px-4 py-2 bg-red-600 text-white rounded">Supprimer</button>
+          `
+        }
       </div>
     </div>
   `;
@@ -287,21 +296,33 @@ showDetails(article) {
   const modal = new Modal("Détails de l'article", detailContainer);
   modal.open();
 
-  // Modifier
-  detailContainer.querySelector(".btn-edit").onclick = () => {
-    modal.close();
-    this.showEditForm(article);
-  };
-
-  // Supprimer (soft delete)
-  detailContainer.querySelector(".btn-delete").onclick = async () => {
-    if (await confirm("Êtes-vous sûr de vouloir archiver cette article ?")) {
-      await this.articleService.softDelete(article.id);
+  if (isDeleted) {
+    // Restaurer
+    detailContainer.querySelector(".btn-restore").onclick = async () => {
+      if (await confirm("Voulez-vous restaurer cet article ?")) {
+        await this.articleService.restore(article.id);
+        modal.close();
+        this.render();
+      }
+    };
+  } else {
+    // Modifier
+    detailContainer.querySelector(".btn-edit").onclick = () => {
       modal.close();
-      this.render();
-    }
-  };
+      this.showEditForm(article);
+    };
+
+    // Supprimer (soft delete)
+    detailContainer.querySelector(".btn-delete").onclick = async () => {
+      if (await confirm("Êtes-vous sûr de vouloir archiver cet article ?")) {
+        await this.articleService.softDelete(article.id);
+        modal.close();
+        this.render();
+      }
+    };
+  }
 }
+
 
 createElementFromHTML(htmlString) {
   const div = document.createElement('div');
@@ -316,37 +337,40 @@ showEditForm(article) {
   form.className = "space-y-4 relative";
 
   form.innerHTML = `
-    <div>
-      <input type="text" name="libelle" value="${article.libelle}" placeholder="Libellé" class="w-full p-2 border rounded" />
-      <p class="text-sm text-red-500 mt-1" data-error="libelle"></p>
-    </div>
+  <div>
+    <input type="text" name="libelle" value="${article.libelle}" placeholder="Libellé" class="w-full p-2 border rounded" />
+    <p class="text-sm text-red-500 mt-1" data-error="libelle"></p>
+  </div>
 
-    <div>
-      <input type="number" name="prix" value="${article.prix}" placeholder="Prix" class="w-full p-2 border rounded" />
-      <p class="text-sm text-red-500 mt-1" data-error="prix"></p>
-    </div>
+  <div>
+    <input type="number" name="prix" value="${article.prix}" placeholder="Prix" class="w-full p-2 border rounded" />
+    <p class="text-sm text-red-500 mt-1" data-error="prix"></p>
+  </div>
 
-    <div>
-      <input type="file" name="imageFile" accept="image/*" class="w-full p-2 border rounded" />
-      <p class="text-sm text-red-500 mt-1" data-error="image"></p>
-    </div>
+  <div>
+    <p class="text-gray-600 text-sm mb-2">Image actuelle :</p>
+    <img src="${article.image}" alt="Aperçu de l'image" class="w-32 h-32 object-cover mb-2 rounded border" />
+    <input type="file" name="imageFile" accept="image/*" class="w-full p-2 border rounded" />
+    <p class="text-sm text-red-500 mt-1" data-error="image"></p>
+  </div>
 
-    <div>
-      <textarea name="description" placeholder="Description" class="w-full p-2 border rounded">${article.description || ""}</textarea>
-      <p class="text-sm text-red-500 mt-1" data-error="description"></p>
-    </div>
+  <div>
+    <textarea name="description" placeholder="Description" class="w-full p-2 border rounded">${article.description || ""}</textarea>
+    <p class="text-sm text-red-500 mt-1" data-error="description"></p>
+  </div>
 
-    <div class="flex justify-end space-x-2 pt-2">
-      <button type="button" id="cancel-edit" class="px-4 py-2 bg-gray-300 rounded">Annuler</button>
-      <button type="submit" class="submit-btn px-4 py-2 bg-indigo-600 text-white rounded flex items-center justify-center gap-2">
-        <span>Modifier</span>
-        <svg class="loader hidden w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
-        </svg>
-      </button>
-    </div>
-  `;
+  <div class="flex justify-end space-x-2 pt-2">
+    <button type="button" id="cancel-edit" class="px-4 py-2 bg-gray-300 rounded">Annuler</button>
+    <button type="submit" class="submit-btn px-4 py-2 bg-indigo-600 text-white rounded flex items-center justify-center gap-2">
+      <span>Modifier</span>
+      <svg class="loader hidden w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+    </button>
+  </div>
+`;
+
 
   const modal = new Modal("Modifier l'article", form);
   modal.open();
