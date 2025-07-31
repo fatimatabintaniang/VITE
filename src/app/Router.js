@@ -1,4 +1,3 @@
-
 import Navbar from "../ui/components/Navbar.js";
 import { AuthService } from "../services/authService.js";
 import { ArticleService } from "../services/articleService.js";
@@ -16,10 +15,6 @@ import BoutiquierArticleScreen from "../ui/screens/Boutiquier/BoutiquierArticleS
 import BoutiquierClientScreen from "../ui/screens/Boutiquier/BoutiquierClientScreen.js";
 import BoutiquierDetteScreen from "../ui/screens/Boutiquier/BoutiquierDetteScreen.js";
 
-
-
-
-
 export default class Router {
   constructor(appRoot) {
     this.appRoot = appRoot;
@@ -27,7 +22,6 @@ export default class Router {
     this.articleSvc = new ArticleService();
     this.detteSvc = new DetteService();
     this.categorySvc = new CategoryService();
-
   }
 
   init() {
@@ -35,97 +29,98 @@ export default class Router {
     window.addEventListener("load", () => this.route());
   }
 
-route() {
-  const hash = window.location.hash || "#login";
-  const user = this.authSvc.getCurrentUser();
+  route() {
+    const hash = window.location.hash || "#login";
+    const user = this.authSvc.getCurrentUser();
 
-  // Si non connecté et pas sur login, rediriger vers login
-  if (!user && hash !== "#login") {
-    window.location.hash = "#login";
-    return;
-  }
-
-  // Si connecté et sur login, rediriger selon le rôle
-  if (user && hash === "#login") {
-    switch (user.id_role) {
-      case "1":
-        window.location.hash = "#admin";
-        break;
-      case "2":
-        window.location.hash = "#boutiquier";
-        break;
-      case "3":
-        window.location.hash = "#client";
-        break;
-      default:
-        window.location.hash = "#login";
+    // Si non connecté et pas sur login, rediriger vers login
+    if (!user && hash !== "#login") {
+      window.location.hash = "#login";
+      return;
     }
-    return;
-  }
 
-  this.appRoot.innerHTML = `
+    // Si connecté et sur login, rediriger selon le rôle
+    if (user && hash === "#login") {
+      switch (user.id_role) {
+        case "1":
+          window.location.hash = "#admin";
+          break;
+        case "2":
+          window.location.hash = "#boutiquier";
+          break;
+        case "3":
+          window.location.hash = "#client";
+          break;
+        default:
+          window.location.hash = "#login";
+      }
+      return;
+    }
+
+    this.appRoot.innerHTML = `
     <div id="navbar" class=""></div>
     <div id="content"></div>
   `;
 
-  // Render Navbar
-  const navbarRoot = document.getElementById("navbar");
-  new Navbar(navbarRoot).render();
+    // Render Navbar
+    const navbarRoot = document.getElementById("navbar");
+    new Navbar(navbarRoot).render();
 
-  // Render content
-  const content = document.getElementById("content");
+    // Render content
+    const content = document.getElementById("content");
 
-  // Gestion de la route dynamique avant le switch
-  if (hash.startsWith("#admin-boutiquier-detail-")) {
-    const id = hash.split("-").pop();  // extrait l'id
-    new AdminBoutiquierDetailScreen(content, id).render();
-    return;
-  }
-// if (hash.startsWith("#boutiquier-categories-")) {
-//   const id = hash.split("-").pop(); // récupère l'id du boutiquier
-//   new BoutiquierCategorieScreen(content, id).render();
-//   return;
-// }
-
-  switch (hash) {
-    case "#login":
-      new LoginScreen(content).render();
-      break;
-    case "#admin":
-      new AdminScreen(content).render();
-      break;
-    case "#boutiquier":
-      new BoutiquierScreen(content).render();
-      break;
-    case "#client":
-      new ClientScreen(content).render();
-      break;
-    case "#articles":
-      new ClientArticlesScreen(content).render();
-      break;
-    case "#admin-boutiquier":
-      new AdminBoutiquierScreen(content).render();
-      break;
-    case "#categories":
-      new BoutiquierCategorieScreen(content).render();
-      break;
-      case "#boutiquier-articles":
-    // On récupère l'utilisateur connecté (boutiquier)
-    const user = this.authSvc.getCurrentUser();
-    if (user && user.id_role === "2") {  // si boutiquier
-      new BoutiquierArticleScreen(content, user.id).render();
-    } else {
-      content.innerHTML = "<p>Accès non autorisé</p>";
+    // Gestion de la route dynamique avant le switch
+    if (hash.startsWith("#admin-boutiquier-detail-")) {
+      const id = hash.split("-").pop(); // extrait l'id
+      new AdminBoutiquierDetailScreen(content, id).render();
+      return;
     }
-    break;
-    case "#boutiquier-clients":
-      const userClient = this.authSvc.getCurrentUser();
-      if (userClient && userClient.id_role === "2") {
-        new BoutiquierClientScreen(content, userClient.id).render();
-      } else {
-        content.innerHTML = "<p>Accès non autorisé</p>";
-      }
-      break;
+    // if (hash.startsWith("#boutiquier-categories-")) {
+    //   const id = hash.split("-").pop(); // récupère l'id du boutiquier
+    //   new BoutiquierCategorieScreen(content, id).render();
+    //   return;
+    // }
+
+    switch (hash) {
+      case "#login":
+        new LoginScreen(content).render();
+        break;
+      case "#admin":
+        new AdminScreen(content).render();
+        break;
+      case "#boutiquier":
+        new BoutiquierScreen(content).render();
+        break;
+      case "#client":
+        new ClientScreen(content).render();
+        break;
+      case "#articles":
+        new ClientArticlesScreen(content).render();
+        break;
+      case "#admin-boutiquier":
+        new AdminBoutiquierScreen(content).render();
+        break;
+      case "#categories":
+        new BoutiquierCategorieScreen(content).render();
+        break;
+      case "#boutiquier-articles":
+        // On récupère l'utilisateur connecté (boutiquier)
+        const user = this.authSvc.getCurrentUser();
+        if (user && user.id_role === "2") {
+          // si boutiquier
+          new BoutiquierArticleScreen(content, user.id).render();
+        } else {
+          content.innerHTML = "<p>Accès non autorisé</p>";
+        }
+        break;
+      case "#boutiquier-clients":
+        const userClient = this.authSvc.getCurrentUser();
+        if (userClient && userClient.id_role === "2") {
+          new BoutiquierClientScreen(content, userClient.id).render();
+        } else {
+          content.innerHTML = "<p>Accès non autorisé</p>";
+        }
+        break;
       case "#boutiquier-dettes":
         const userDette = this.authSvc.getCurrentUser();
         if (userDette?.id_role === "2") {
@@ -135,10 +130,8 @@ route() {
         }
         break;
 
-    default:
-      content.innerHTML = "<h1>404 - Page non trouvée</h1>";
+      default:
+        content.innerHTML = "<h1>404 - Page non trouvée</h1>";
+    }
   }
-}
-
-
 }
