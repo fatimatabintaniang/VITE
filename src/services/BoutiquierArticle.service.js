@@ -41,6 +41,10 @@ async update(id, updatedArticle) {
   return data;
 }
 
+async restore(id) {
+    return await this.api.patch("articles", id, { deleted: false });
+  }
+
 
 
 }

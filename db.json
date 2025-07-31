@@ -190,7 +190,7 @@
       "categorie_id": "2",
       "image": "https://res.cloudinary.com/dof0tmlgt/image/upload/v1753909289/mzoap7ukbwvyvnapozej.png",
       "id_boutiquier": "2",
-      "deleted": false
+      "deleted": true
     }
   ],
   "utilisateurs": [
