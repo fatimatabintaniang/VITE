@@ -13,7 +13,7 @@ export default class BoutiquierDetteScreen {
     console.log("Demandes de dettes:", dettes);
 
     this.root.innerHTML = `
-  <div class="max-w-6xl mx-auto px-4 mt-20 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-6xl mx-auto px-4 mt-20 sm:px-6 lg:px-8 py-8 ">
     <h2 class="text-2xl font-bold text-gray-800 mb-6">Gestion des Demandes de Dettes</h2>
 
     ${dettes.length === 0 ? `

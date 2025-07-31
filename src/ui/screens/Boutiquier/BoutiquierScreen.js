@@ -14,7 +14,7 @@ export default class AdminScreen {
 
   getHTMLSkeleton() {
     return `
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-100 ">
       <!-- Header moderne avec ombre portée et dégradé subtil -->
       <header class="bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center">
