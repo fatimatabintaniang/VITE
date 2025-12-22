@@ -1,2 +1,47 @@
 @import "tailwindcss";
-@plugin "daisyui";
+/* @plugin "daisyui"; */
+
+
+.toast-container {
+  position: fixed;
+  top: 20px; /* Utilisez px pour plus de précision */
+  right: 20px;
+  z-index: 9999; 
+  display: flex;
+  flex-direction: column-reverse; 
+  gap: 10px;
+  pointer-events: none; 
+}
+
+.toast {
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: toastSlideIn 0.3s ease-out forwards, toastFadeOut 0.5s ease-in 2.5s forwards;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto; 
+  max-width: 300px;
+  transform: translateX(150%);
+}
+
+.toast-success { background-color: #10B981; }
+.toast-error { background-color: #EF4444; }
+.toast-info { background-color: #3B82F6; }
+.toast-warning { background-color: #F59E0B; }
+
+@keyframes toastSlideIn {
+  to { transform: translateX(0); }
+}
+
+@keyframes toastFadeOut {
+  to { opacity: 0; transform: translateY(-20px); }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}

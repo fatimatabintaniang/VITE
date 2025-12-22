@@ -1,6 +1,6 @@
 export class AuthService {
   async login(email, password) {
-    const response = await fetch("/src/data/data.json");
+    const response = await fetch("./db.json");
     const data = await response.json();
     const users = data.utilisateurs;
     const roles = data.roles;

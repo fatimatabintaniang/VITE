@@ -1,14 +1,14 @@
-import { AuthService } from "../../services/authService.js";
+import { AuthService } from "../../../services/authService.js";
 
 export default class LoginScreen {
   constructor(root) {
     this.root = root;
-   this.authSvc = new AuthService();
+    this.authSvc = new AuthService();
   }
 
   render() {
-  this.root.innerHTML = `
-      <div class="max-w-md  mx-auto mt-5 bg-white w-[100vh] p-6 rounded-xl shadow-lg border border-gray-100 ">
+    this.root.innerHTML = `
+      <div class="max-w-md  mx-auto mt-15  bg-white w-[100vh] p-6 rounded-xl shadow-lg border border-gray-100 ">
         <div class="flex justify-center mb-6">
           <svg class="w-10 h-10 text-indigo-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
@@ -21,7 +21,7 @@ export default class LoginScreen {
         <form id="login-form" class="space-y-5 ">
           <div>
             <div class="flex items-center justify-between mb-1">
-              <label class="block text-sm font-medium text-gray-700">Email</label>
+              <label class="block text-sm font-medium">Email</label>
               <span id="email-error" class="text-red-600 text-xs hidden"></span>
             </div>
             <div class="relative">
@@ -37,7 +37,7 @@ export default class LoginScreen {
           
           <div>
             <div class="flex items-center justify-between mb-1">
-              <label class="block text-sm font-medium text-gray-700">Mot de passe</label>
+              <label class="block text-sm font-medium">Mot de passe</label>
               <span id="password-error" class="text-red-600 text-xs hidden"></span>
             </div>
             <div class="relative">
@@ -58,7 +58,7 @@ export default class LoginScreen {
             </div>
           </div>
           
-          <button type="submit" class="w-full px-4 py-3 bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-medium rounded-lg shadow hover:from-indigo-700 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
+          <button type="submit" class="w-full px-4 py-3 bg-blue-500 text-white font-medium rounded-lg shadow hover:from-indigo-700 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
             Se connecter
           </button>
           
@@ -124,7 +124,7 @@ export default class LoginScreen {
         const user = await this.authSvc.login(email, password);
         switch (user.id_role) {
           case "1":
-             window.location.href = '#admin';
+            window.location.href = "#admin";
             break;
           case "2":
             window.location.hash = "#boutiquier";

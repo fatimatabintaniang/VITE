@@ -1,16 +1,33 @@
 
 import Navbar from "../ui/components/Navbar.js";
 import { AuthService } from "../services/authService.js";
-import LoginScreen from "../ui/screens/loginScreen.js";
-import AdminScreen from "../ui/screens/adminScreen.js";
-import BoutiquierScreen from "../ui/screens/boutiquierScreen.js";
-import ClientScreen from "../ui/screens/clientScreen.js";
-import AdminBoutiquierScreen from "../ui/screens/AdminBoutiquierScreen.js";
+import { ArticleService } from "../services/articleService.js";
+import { DetteService } from "../services/detteService.js";
+import { CategoryService } from "../services/categoriService.js";
+import LoginScreen from "../ui/screens/Security/LoginScreen.js";
+import AdminScreen from "../ui/screens/Admin/AdminScreen.js";
+import BoutiquierScreen from "../ui/screens/Boutiquier/BoutiquierScreen.js";
+import ClientScreen from "../ui/screens/Client/ClientScreen.js";
+import ClientArticlesScreen from "../ui/screens/Client/ClientArticlesScreen.js";
+import AdminBoutiquierScreen from "../ui/screens/Admin/AdminBoutiquierScreen.js";
+import AdminBoutiquierDetailScreen from "../ui/screens/Admin/AdminBoutiquierDetailScreen.js";
+import BoutiquierCategorieScreen from "../ui/screens/Boutiquier/BoutiquierCategorieScreen.js";
+import BoutiquierArticleScreen from "../ui/screens/Boutiquier/BoutiquierArticleScreen.js";
+import BoutiquierClientScreen from "../ui/screens/Boutiquier/BoutiquierClientScreen.js";
+import BoutiquierDetteScreen from "../ui/screens/Boutiquier/BoutiquierDetteScreen.js";
+
+
+
+
 
 export default class Router {
   constructor(appRoot) {
     this.appRoot = appRoot;
     this.authSvc = new AuthService();
+    this.articleSvc = new ArticleService();
+    this.detteSvc = new DetteService();
+    this.categorySvc = new CategoryService();
+
   }
 
   init() {
@@ -58,6 +75,18 @@ route() {
   // Render content
   const content = document.getElementById("content");
 
+  // Gestion de la route dynamique avant le switch
+  if (hash.startsWith("#admin-boutiquier-detail-")) {
+    const id = hash.split("-").pop();  // extrait l'id
+    new AdminBoutiquierDetailScreen(content, id).render();
+    return;
+  }
+// if (hash.startsWith("#boutiquier-categories-")) {
+//   const id = hash.split("-").pop(); // récupère l'id du boutiquier
+//   new BoutiquierCategorieScreen(content, id).render();
+//   return;
+// }
+
   switch (hash) {
     case "#login":
       new LoginScreen(content).render();
@@ -71,12 +100,45 @@ route() {
     case "#client":
       new ClientScreen(content).render();
       break;
+    case "#articles":
+      new ClientArticlesScreen(content).render();
+      break;
     case "#admin-boutiquier":
       new AdminBoutiquierScreen(content).render();
       break;
+    case "#categories":
+      new BoutiquierCategorieScreen(content).render();
+      break;
+      case "#boutiquier-articles":
+    // On récupère l'utilisateur connecté (boutiquier)
+    const user = this.authSvc.getCurrentUser();
+    if (user && user.id_role === "2") {  // si boutiquier
+      new BoutiquierArticleScreen(content, user.id).render();
+    } else {
+      content.innerHTML = "<p>Accès non autorisé</p>";
+    }
+    break;
+    case "#boutiquier-clients":
+      const userClient = this.authSvc.getCurrentUser();
+      if (userClient && userClient.id_role === "2") {
+        new BoutiquierClientScreen(content, userClient.id).render();
+      } else {
+        content.innerHTML = "<p>Accès non autorisé</p>";
+      }
+      break;
+      case "#boutiquier-dettes":
+        const userDette = this.authSvc.getCurrentUser();
+        if (userDette?.id_role === "2") {
+          new BoutiquierDetteScreen(content, userDette.id).render();
+        } else {
+          content.innerHTML = "<p>Accès non autorisé</p>";
+        }
+        break;
+
     default:
       content.innerHTML = "<h1>404 - Page non trouvée</h1>";
   }
 }
+
 
 }
